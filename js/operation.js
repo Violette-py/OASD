@@ -8,6 +8,8 @@ function recordUserOperation(artworkId, operationType) {
         operationType: operationType
     };
 
+    console.log(data);
+
     // 发送请求
     fetch(url, {
         method: 'POST',

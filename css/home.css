@@ -184,3 +184,75 @@ button[type="submit"]:hover {
 .next {
   right: 20px;
 }
+
+/* 搜索结果展示 */
+
+#resultsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+  justify-content: center;
+}
+
+.artworkDiv {
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+  /* border: 1px solid #ccc; */
+  text-align: center;
+  margin-top: 30px;
+  background-color: #83b7ee;
+
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+
+}
+
+.artworkDiv img {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.artworkDiv h3 {
+  margin-bottom: 5px;
+}
+
+.artworkDiv p {
+  margin-bottom: 10px;
+}
+
+.artworkDiv {
+  white-space: nowrap;
+  /* 禁止换行 */
+  overflow: hidden;
+  /* 超出部分隐藏 */
+  text-overflow: ellipsis;
+  /* 使用省略号代替超出部分 */
+}
+
+/* 以下为新样式 */
+.artworkDiv {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  /* 添加其他样式属性 */
+}
+
+.topDiv {
+  display: flex;
+  /* 添加其他样式属性 */
+}
+
+.imageDiv {
+  /* 添加样式属性，例如设置宽度、间距等 */
+}
+
+.infoDiv {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* 添加其他样式属性 */
+}

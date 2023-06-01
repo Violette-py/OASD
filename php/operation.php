@@ -1,9 +1,14 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+// header("Access-Control-Allow-Origin: http://localhost:3000");
 
 // NOTE: 建立数据库连接
 $mysql_server = 'localhost';

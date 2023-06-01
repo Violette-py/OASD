@@ -45,8 +45,6 @@ function search(event) {
     fetch(`${url}?${params}`)
         .then(response => response.json())
         .then(data => {
-            // FIXME: 注意这里返回的数据
-            // NOTE: 存储搜索结果到localStorage
 
             var searchResultsOutput = document.getElementById("searchResultsOutput");
             searchResultsOutput.innerHTML = "";
@@ -56,11 +54,14 @@ function search(event) {
                 var searchCountText = document.createElement("p");
                 searchCountText.textContent = "Search results : " + data.length + " records found.";
                 searchResultsOutput.appendChild(searchCountText);
-
+                
+                // NOTE: 存储搜索结果到localStorage
                 localStorage.setItem('artworkData', JSON.stringify(data.results));
                 displayResultsForPage(1);
                 displayPagination(data.length);
             } else {
+
+                // NOTE: 没有符合条件的商品时，展示所有结果
 
                 var noResultsText = document.createElement("p");
                 noResultsText.textContent = "No matching results found. Here are all artworks in our mall.";
@@ -153,7 +154,7 @@ function displayResults(results) {
 // NOTE: 展示底部分页编号
 function displayPagination(totalResults) {
 
-    console.log('here is displayPagination' + ' ' + totalResults);
+    // console.log('here is displayPagination' + ' ' + totalResults);
 
     var paginationContainer = document.getElementById("paginationContainer");
     paginationContainer.innerHTML = "";

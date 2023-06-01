@@ -2,6 +2,8 @@
 <?php
 session_start();
 
+header('Access-Control-Allow-Origin: *');
+
 $mysql_server = 'localhost';
 $mysql_name = 'root';
 $mysql_password = 'gansui';

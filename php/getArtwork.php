@@ -111,8 +111,113 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // NOTE: 展示推荐商品
         case 'getRecommended':
 
-            // NOTE: 目前是根据view排序
-            $sql = "SELECT artworkId, introduction, imageFileName FROM artwork ORDER BY view DESC LIMIT 5";
+            // // NOTE: 目前是根据view排序
+            // $sql = "SELECT artworkId, introduction, imageFileName FROM artwork ORDER BY view DESC LIMIT 5";
+            // $result = $conn->query($sql);
+
+            // $response = array();
+            // while ($row = $result->fetch_assoc()) {
+            //     $response[] = $row;
+            // }
+
+            // FIXME: 当用户为新注册的，尚未操作过任何商品时，防止冷启动需要按照view降序推荐
+            // FIXME: 当genres数组中对应的画作已经全部被用户操作过了，应该有预案处理
+
+            // FIXME: 或者先挑选，最后再检查用户是否操作过
+
+            $userId = $_GET['userId'];
+
+            // 获取用户操作过的商品id数组
+            $userOperations = [];
+            $sql = "SELECT * FROM operation WHERE userId = '$userId'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $userOperations[] = $row;
+                }
+            }
+
+            // 计算得分
+            $artworkScores = [];
+            foreach ($userOperations as $operation) {
+                $artworkId = $operation['artworkId'];
+                $operationType = $operation['operationType'];
+
+                $score = 0;
+                if ($operationType == 1) {
+                    $score = 1;
+                } elseif ($operationType == 2) {
+                    $score = 3;
+                } elseif ($operationType == 3) {
+                    $score = 5;
+                }
+
+                if (isset($artworkScores[$artworkId])) {
+                    $artworkScores[$artworkId] += $score;
+                } else {
+                    $artworkScores[$artworkId] = $score;
+                }
+            }
+
+            // 选出得分最高的3件商品
+            arsort($artworkScores);
+            $topArtworkIds = array_slice(array_keys($artworkScores), 0, 3);
+
+            // 根据topArtworkIds查询genre字段
+            $genres = [];
+            foreach ($topArtworkIds as $artworkId) {
+                $genre = getGenreForArtwork($conn, $artworkId);
+                if (!in_array($genre, $genres)) { // NOTE: genre数组中各元素不相同
+                    $genres[] = $genre;
+                }
+            }
+
+            // 在artwork表中查询genre字段存在于genres数组中的所有记录，并根据view字段进行降序排序
+            $artworks = [];
+            if (!empty($genres)) {
+                $genresString = "'" . implode("','", $genres) . "'";
+                $sql = "SELECT * FROM artwork WHERE genre IN ($genresString) ORDER BY view DESC";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $artworkId = $row['artworkId'];
+
+                        // 检查该商品是否在用户操作过的商品中
+                        $isUserOperation = false;
+                        foreach ($userOperations as $operation) {
+                            if ($operation['artworkId'] == $artworkId) {
+                                $isUserOperation = true;
+                                break;
+                            }
+                        }
+
+                        // 如果该商品不在用户操作过的商品中，则将其添加到结果数组中
+                        if (!$isUserOperation) {
+                            $artworks[] = $row;
+                        }
+                    }
+                }
+            }
+
+            // 截取排名前四的商品
+            $topArtworks = array_slice($artworks, 0, 4);
+
+            // // 随机选择4件artwork，genre字段存在于genres数组中
+            // $randomArtworks = getRandomArtworks($conn, $genres, 4);
+
+            // 返回结果
+            $response = [
+                'artworks' => $topArtworks
+            ];
+
+            break;
+
+        // NOTE: 最新发布的画作
+        case 'getLatestReleased':
+
+            $sql = "SELECT * FROM artwork ORDER BY timeReleased DESC LIMIT 6";
             $result = $conn->query($sql);
 
             $response = array();
@@ -216,5 +321,33 @@ echo json_encode($response);
 
 // 关闭数据库连接
 $conn->close();
+
+
+// NOTE: 获取artwork的genre
+function getGenreForArtwork($conn, $artworkId)
+{
+    $sql = "SELECT genre FROM artwork WHERE artworkId = '$artworkId'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['genre'];
+    }
+    return null;
+}
+
+// NOTE: 获取随机的artworks
+function getRandomArtworks($conn, $genres, $count)
+{
+    $genresString = "'" . implode("','", $genres) . "'";
+    $sql = "SELECT * FROM artwork WHERE genre IN ($genresString) ORDER BY RAND() LIMIT $count";
+    $result = $conn->query($sql);
+    $artworks = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $artworks[] = $row;
+        }
+    }
+    return $artworks;
+}
 
 ?>
