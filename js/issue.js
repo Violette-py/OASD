@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // 检查URL参数中是否包含artworkId
     if (urlParams.has('artworkId')) {
 
+        // NOTE: url包含artworkId，则为changeInfo界面，需要先填充商品原有的信息
+
         localStorage.setItem('requestType', 'changeInfo');
         localStorage.setItem('artworkId', urlParams.get('artworkId'));
 
@@ -43,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`${url}?${params}`)
             .then(response => response.json())
             .then(data => {
+
+                // FIXME: 检查artworkId是否合法，不合法就重定向到error界面
 
                 // 将商品信息填充到表单输入框中
                 document.getElementById('preview-image').src = '../resource/image/artwork/' + data.imageFileName;
@@ -61,6 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('Error:', error);
             });
     } else {
+
+        // NOTE: url不包含artworkId，则为issue界面，设为空表单即可
+
         localStorage.setItem('requestType', 'issue');
         localStorage.setItem('artworkId', -1);
     }

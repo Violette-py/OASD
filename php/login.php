@@ -3,6 +3,7 @@
 session_start();
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 
 $mysql_server = 'localhost';
 $mysql_name = 'root';

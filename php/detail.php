@@ -1,6 +1,7 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $artwork = $result->fetch_assoc();
 
         // 构建响应数据
-        $response = array(
+        $artworkDetail = array(
             'ownerId' => $artwork['ownerId'],
             'status' => $artwork['status'],
             'view' => $artwork['view'],
@@ -46,8 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'height' => $artwork['height'],
             'releasedTime' => $artwork['timeReleased']
         );
+
+        $response = [
+            'success' => true,
+            'data' => $artworkDetail
+        ];
     } else {
-        $response = array('error' => 'Artwork not found');
+
+        $response = [
+            'success' => false,
+            'message' => 'Artwork not found'
+        ];
     }
 
 }

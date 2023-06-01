@@ -225,37 +225,44 @@ function displayResults(results) {
         // NOTE: 点击商品图片跳转到详情界面
         // FIXME: 把设置localstorage换成GET发送参数
         image.addEventListener('click', () => {
-            localStorage.setItem('selectedArtworkId', result.artworkId);
-            window.location.href = '../html/detail.html';
+
+            // localStorage.setItem('selectedArtworkId', result.artworkId);
+            // window.location.href = '../html/detail.html';
+
+            // 构造Detail页面的URL，并包含artworkId参数
+            const detailUrl = `../html/detail.html?artworkId=${result.artworkId}`;
+            // 跳转到修改页面
+            window.location.href = detailUrl;
+        
         });
 
-        var infoDiv = document.createElement("div");
-        infoDiv.classList.add("infoDiv");
-        var title = document.createElement("h3");
-        title.classList.add("title");
-        title.textContent = result.title;
-        infoDiv.appendChild(title);
+    var infoDiv = document.createElement("div");
+    infoDiv.classList.add("infoDiv");
+    var title = document.createElement("h3");
+    title.classList.add("title");
+    title.textContent = result.title;
+    infoDiv.appendChild(title);
 
-        var artist = document.createElement("p");
-        artist.classList.add("artist");
-        artist.textContent = "by " + result.artist;
-        infoDiv.appendChild(artist);
+    var artist = document.createElement("p");
+    artist.classList.add("artist");
+    artist.textContent = "by " + result.artist;
+    infoDiv.appendChild(artist);
 
-        var price = document.createElement("p");
-        price.classList.add("price");
-        price.textContent = "Price: " + result.price;
-        infoDiv.appendChild(price);
+    var price = document.createElement("p");
+    price.classList.add("price");
+    price.textContent = "Price: " + result.price;
+    infoDiv.appendChild(price);
 
-        topDiv.appendChild(imageDiv);
-        topDiv.appendChild(infoDiv);
+    topDiv.appendChild(imageDiv);
+    topDiv.appendChild(infoDiv);
 
-        var introduction = document.createElement("p");
-        introduction.classList.add('intro');
-        introduction.textContent = result.introduction;
+    var introduction = document.createElement("p");
+    introduction.classList.add('intro');
+    introduction.textContent = result.introduction;
 
-        artworkDiv.appendChild(topDiv);
-        artworkDiv.appendChild(introduction);
+    artworkDiv.appendChild(topDiv);
+    artworkDiv.appendChild(introduction);
 
-        resultsContainer.appendChild(artworkDiv);
-    });
+    resultsContainer.appendChild(artworkDiv);
+});
 }

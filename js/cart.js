@@ -94,8 +94,11 @@ async function getCartItems() {
 
                 // NOTE: 点击商品图片跳转到详情界面
                 image.addEventListener('click', () => {
-                    localStorage.setItem('selectedArtworkId', item.artworkId);  // image.dataset.artworkId
-                    window.location.href = '../html/detail.html';
+                    // localStorage.setItem('selectedArtworkId', item.artworkId);  // image.dataset.artworkId
+                    // window.location.href = '../html/detail.html';
+                
+                    const detailUrl = `../html/detail.html?artworkId=${item.artworkId}`;
+                    window.location.href = detailUrl;
                 });
 
                 // 创建小的 div 元素，用于装艺术品名称、作者、价格

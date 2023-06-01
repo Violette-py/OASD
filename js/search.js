@@ -54,7 +54,7 @@ function search(event) {
                 var searchCountText = document.createElement("p");
                 searchCountText.textContent = "Search results : " + data.length + " records found.";
                 searchResultsOutput.appendChild(searchCountText);
-                
+
                 // NOTE: 存储搜索结果到localStorage
                 localStorage.setItem('artworkData', JSON.stringify(data.results));
                 displayResultsForPage(1);
@@ -116,8 +116,13 @@ function displayResults(results) {
         // NOTE: 点击商品图片跳转到详情界面
         // FIXME: 把设置localstorage换成GET发送参数
         image.addEventListener('click', () => {
-            localStorage.setItem('selectedArtworkId', result.artworkId);
-            window.location.href = '../html/detail.html';
+            // localStorage.setItem('selectedArtworkId', result.artworkId);
+            // window.location.href = '../html/detail.html';
+
+            // 构造Detail页面的URL，并包含artworkId参数
+            const detailUrl = `../html/detail.html?artworkId=${result.artworkId}`;
+            // 跳转到修改页面
+            window.location.href = detailUrl;
         });
 
         var infoDiv = document.createElement("div");
@@ -153,8 +158,6 @@ function displayResults(results) {
 
 // NOTE: 展示底部分页编号
 function displayPagination(totalResults) {
-
-    // console.log('here is displayPagination' + ' ' + totalResults);
 
     var paginationContainer = document.getElementById("paginationContainer");
     paginationContainer.innerHTML = "";

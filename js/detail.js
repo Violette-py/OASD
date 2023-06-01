@@ -1,15 +1,32 @@
 window.addEventListener('DOMContentLoaded', function () {
 
     // 从 localStorage 中读取 artworkId
-    var artworkId = localStorage.getItem('selectedArtworkId');
-    if (artworkId) {
+    // var artworkId = localStorage.getItem('selectedArtworkId');
+    // if (artworkId) {
+    //     getArtworkDetail(artworkId);
+    // }
+
+    // 获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    var artworkId;
+
+    // 检查URL参数中是否包含artworkId
+    if (urlParams.has('artworkId')) {
+        artworkId = urlParams.get('artworkId');
+        this.localStorage.setItem('selectedArtworkId', artworkId);
         getArtworkDetail(artworkId);
+    } else {
+        // NOTE: 不合法url，重定向到error界面
+        this.window.location.href = '../html/error.html';
     }
+
+    console.log('artworkId: ' + artworkId)
+
 
     // NOTE: 记录用户行为
     recordUserOperation(artworkId, 1);
 
-    // NOTE: 同步更新artwork的view字段
+    // NOTE: 同步更新artwork的view字段 -- 能否应用trigger实现？
 
     // NOTE: 购物车按钮
     const shoppingButton = document.getElementById('shopping');
@@ -23,7 +40,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// NOTE: GET 展示艺术画作详情
+// NOTE: 展示艺术画作详情
 function getArtworkDetail(artworkId) {
 
     const url = 'http://localhost:3000/php/detail.php';
@@ -38,40 +55,45 @@ function getArtworkDetail(artworkId) {
         .then(response => response.json())
         .then(data => {
 
-            // window.location.href = '../html/detail.html';
-            // 由于该代码位于异步请求的回调函数中，页面的跳转会在异步请求结束后立即执行，导致无法传递数据给 ../html/detail.html 页面
+            if (data.success) {
 
-            // NOTE: 动态填充页面
-            let imagePath = '../resource/image/artwork/' + data.imageFileName;
-            let image = document.getElementById("artworkImage");
-            image.src = imagePath;
-            // image.dataset.ownerId = data.ownerId;
+                // window.location.href = '../html/detail.html';
+                // 由于该代码位于异步请求的回调函数中，页面的跳转会在异步请求结束后立即执行，导致无法传递数据给 ../html/detail.html 页面
 
-            document.querySelector('.title').textContent = data.title;
-            document.querySelector('.artist').textContent = data.artist;
-            document.querySelector('.introduction p').textContent = data.introduction;
-            document.querySelector('#filled-price').textContent = data.price;
-            document.querySelector('#filled-status').textContent = data.status;
-            document.querySelector('#filled-view').textContent = data.view;
-            document.querySelector('#genre').textContent = data.genre;
-            document.querySelector('#year').textContent = data.year;
-            document.querySelector('#width').textContent = data.width;
-            document.querySelector('#height').textContent = data.height;
-            document.querySelector('#released-time').textContent = data.releasedTime;
+                // NOTE: 动态填充页面
+                let imagePath = '../resource/image/artwork/' + data.data.imageFileName;
+                let image = document.getElementById("artworkImage");
+                image.src = imagePath;
 
-            // NOTE: 检查shoppingButton的状态
-            const shoppingButton = document.getElementById('shopping');
+                document.querySelector('.title').textContent = data.data.title;
+                document.querySelector('.artist').textContent = data.data.artist;
+                document.querySelector('.introduction p').textContent = data.data.introduction;
+                document.querySelector('#filled-price').textContent = data.data.price;
+                document.querySelector('#filled-status').textContent = data.data.status;
+                document.querySelector('#filled-view').textContent = data.data.view;
+                document.querySelector('#genre').textContent = data.data.genre;
+                document.querySelector('#year').textContent = data.data.year;
+                document.querySelector('#width').textContent = data.data.width;
+                document.querySelector('#height').textContent = data.data.height;
+                document.querySelector('#released-time').textContent = data.data.releasedTime;
 
-            if (data.ownerId === sessionStorage.getItem('userId')) {
-                shoppingButton.disabled = true;
-                shoppingButton.title = '您不能购买自己发布的艺术品';
-            } else if (data.status === '已售出') {
-                shoppingButton.disabled = true;
-                shoppingButton.title = '该画作已售出';
+                // NOTE: 检查shoppingButton的状态
+                const shoppingButton = document.getElementById('shopping');
+
+                if (data.data.ownerId === sessionStorage.getItem('userId')) {
+                    shoppingButton.disabled = true;
+                    shoppingButton.title = '您不能购买自己发布的艺术品';
+                } else if (data.data.status === '已售出') {
+                    shoppingButton.disabled = true;
+                    shoppingButton.title = '该画作已售出';
+                } else {
+                    checkIfHasAddedToCart();
+                }
+
             } else {
-                checkIfHasAddedToCart();
+                // NOTE: 不合法url（未找到对应的artwork），重定向到error界面
+                this.window.location.href = '../html/error.html';
             }
-
 
         })
         .catch(error => {
@@ -116,7 +138,7 @@ function confirmAddToCart() {
     }
 }
 
-// NOTE: POST 添加购物车
+// NOTE: 添加购物车
 function addToCart() {
 
     const cartData = {
@@ -137,14 +159,17 @@ function addToCart() {
         .then(response => response.json())
         .then(data => {
             alert(data.message);
-            window.location.href = '../html/detail.html';
+            // window.location.href = '../html/detail.html';
+            const detailUrl = `../html/detail.html?artworkId=${localStorage.getItem('selectedArtworkId')}`;
+            window.location.href = detailUrl;
+            // FIXME: 修改所有跳转到detail界面的请求
         })
         .catch(error => {
             console.error('请求出错:', error);
         });
 }
 
-// NOTE: POST 添加评论
+// NOTE: 添加评论
 function handleCommentSubmit(event) {
     console.log('here is submit');
     event.preventDefault(); // 阻止表单的默认提交行为

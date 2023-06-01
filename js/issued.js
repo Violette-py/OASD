@@ -1,12 +1,11 @@
 
 window.addEventListener('DOMContentLoaded', function () {
 
-    // NOTE: GET 获取已发布的画作
+    // NOTE: 获取已发布的画作
     let url = 'http://localhost:3000/php/getArtwork.php';
     let requestType = 'getIssued';
     let ownerId = sessionStorage.getItem('userId');
 
-    // 构建带参数的 URL
     let params = new URLSearchParams({
         requestType: requestType,
         ownerId: ownerId
@@ -59,7 +58,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 statusCell.textContent = artwork.status;
                 row.appendChild(statusCell);
 
-                // 创建修改超链接项
+                // 创建Modify超链接项
                 const modifyCell = document.createElement('td');
                 const modifyLink = document.createElement('a');
                 modifyLink.textContent = 'Modify';
@@ -70,7 +69,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 modifyCell.appendChild(modifyLink);
                 row.appendChild(modifyCell);
 
-                // 创建详情超链接项
+                // 创建Detail超链接项
                 const detailCell = document.createElement('td');
                 // const detailCell = row.insertCell();
                 const detailLink = document.createElement('a');
@@ -121,10 +120,8 @@ function handleDetailClick(event) {
 
     // FIXME: 统一换成带参数的url方式？ cart中点击跳转详情也需要变动
 
-    // 将 artworkId 存储到 localStorage
-    localStorage.setItem('selectedArtworkId', artworkId);
-    // 跳转到详情页面     
-    window.location.href = '../html/detail.html';
+    const detailUrl = `../html/detail.html?artworkId=${artworkId}`;
+    window.location.href = detailUrl;
 
     console.log('Clicked on artwork with ID:', artworkId);
 }
