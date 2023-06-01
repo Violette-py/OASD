@@ -174,8 +174,68 @@ textarea {
 /* 禁用状态的按钮样式 */
 button[disabled] {
     background-color: #9f9191;
-    cursor: not-allowed; 
-  }
+    cursor: not-allowed;
+}
 
 
+/* 张思源的图片局部放大 */
+.probox {
+    width: 18em;
+    height: 25em;
+    border: 1px solid #000;
+}
 
+.probox img {
+    width: 18em;
+    height: 28em;
+    vertical-align: top;
+}
+
+.showbox {
+    display: none;
+    position: absolute;
+    left: 25.7em;
+    top: 29.5em;
+    width: 15em;
+    height: 15em;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+.showbox img {
+    position: absolute;
+    height: 1200px;
+    width: 1200px;
+}
+
+.hoverbox {
+    display: none;
+    position: absolute;
+    top: 0;
+    background: #21ac98;
+    border: 1px solid #09f;
+    height: 5em;
+    width: 5em;
+    cursor: move;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+/* GPT生成 局部放大 */
+
+.img-container {
+    position: relative;
+}
+
+.zoom-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    /* 调整为局部放大框的大小 */
+    height: 200px;
+    display: none;
+    border: 1px solid #000;
+    pointer-events: none;
+    /* 防止遮挡鼠标事件 */
+}

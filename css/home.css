@@ -178,14 +178,14 @@ button[type="submit"]:hover {
 .slider,
 .slider-panel img,
 .slider-extra {
-  width: 1000px;
-  height: 600px;
+  width: 800px;
+  height: 400px;
 }
 
 .slider {
   text-align: center;
   margin-top: 40px;
-  margin-left: 320px;
+  margin-left: 420px;
 
   /* display: flex;
   align-items: center;
@@ -231,10 +231,10 @@ button[type="submit"]:hover {
   height: 18px;
   line-height: 18px;
   width: 18px;
-  margin-top: 570px;
+  margin-top: 380px;
   /* margin-left: 100px; */
   position: relative;
-  left: 480px;
+  left: 380px;
 
 }
 

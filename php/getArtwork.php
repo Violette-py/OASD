@@ -195,9 +195,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         }
 
                         // 如果该商品不在用户操作过的商品中，则将其添加到结果数组中
-                        if (!$isUserOperation) {
+                        // if (!$isUserOperation) {
                             $artworks[] = $row;
-                        }
+                        // }
                     }
                 }
             }

@@ -20,7 +20,54 @@ window.addEventListener('DOMContentLoaded', function () {
         this.window.location.href = '../html/error.html';
     }
 
-    console.log('artworkId: ' + artworkId)
+    console.log('artworkId: ' + artworkId);
+
+    // NOTE: 图片局部放大
+    // const imgbox = document.querySelector('.imgbox');
+    // const hoverbox = document.querySelector('.hoverbox');
+    // const showbox = document.querySelector('.showbox');
+    // const zoomedImage = document.querySelector('#zoomedImage');
+
+    // // 图片加载完成后执行初始化
+    // zoomedImage.addEventListener('load', function () {
+    //     Zoomhover(imgbox, hoverbox, showbox, zoomedImage);
+    // });
+
+    var imgContainer = document.querySelector('.img-container');
+    var zoomBox = document.querySelector('.zoom-box');
+    var zoomedImage = document.querySelector('#artworkImage');
+
+    // 图片加载完成后执行初始化
+    zoomedImage.addEventListener('load', function () {
+        imgContainer.addEventListener('mousemove', function (e) {
+            var containerRect = imgContainer.getBoundingClientRect();
+            var x = e.clientX - containerRect.left;
+            var y = e.clientY - containerRect.top;
+
+            showZoomBox(x, y);
+        });
+
+        imgContainer.addEventListener('mouseleave', function () {
+            hideZoomBox();
+        });
+    });
+
+    function showZoomBox(x, y) {
+        var zoomBoxSize = 200; // 调整为局部放大框的大小
+        var containerSize = imgContainer.offsetWidth;
+        var zoomedImageSize = zoomedImage.offsetWidth;
+        var zoomRatio = zoomedImageSize / containerSize;
+        var bgPosX = -x * zoomRatio + zoomBoxSize / 2;
+        var bgPosY = -y * zoomRatio + zoomBoxSize / 2;
+
+        zoomBox.style.backgroundImage = 'url(' + zoomedImage.src + ')';
+        zoomBox.style.backgroundPosition = bgPosX + 'px ' + bgPosY + 'px';
+        zoomBox.style.display = 'block';
+    }
+
+    function hideZoomBox() {
+        zoomBox.style.display = 'none';
+    }
 
 
     // NOTE: 记录用户行为
@@ -65,6 +112,10 @@ function getArtworkDetail(artworkId) {
                 let image = document.getElementById("artworkImage");
                 image.src = imagePath;
 
+                // NOTE: 设置zoomedImage
+                const zoomedImage = document.querySelector('#artworkImage');
+                zoomedImage.src = imagePath;
+
                 document.querySelector('.title').textContent = data.data.title;
                 document.querySelector('.artist').textContent = data.data.artist;
                 document.querySelector('.introduction p').textContent = data.data.introduction;
@@ -100,6 +151,67 @@ function getArtworkDetail(artworkId) {
             console.error('Error:', error);
         });
 }
+
+// NOTE: 图片局部放大
+
+function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox, zoomedImage) {
+    var moveX = x - l - (h_w / 2);
+    var moveY = y - t - (h_h / 2);
+
+    // 判断鼠标使其不跑出图片框
+    moveX = Math.max(0, Math.min(moveX, imgbox.offsetWidth - h_w));
+    moveY = Math.max(0, Math.min(moveY, imgbox.offsetHeight - h_h));
+
+    // 求图片比例
+    var zoomX = zoomedImage.offsetWidth / imgbox.offsetWidth;
+    var zoomY = zoomedImage.offsetHeight / imgbox.offsetHeight;
+
+    showbox.style.left = -(moveX * zoomX + 60) + 'px';
+    showbox.style.top = -(moveY * zoomY + 10) + 'px';
+    hoverbox.style.left = moveX + 105 + 'px';
+    hoverbox.style.top = moveY + 300 + 'px';
+}
+
+function Zoomhover(imgbox, hoverbox, showbox, zoomedImage) {
+    var l = imgbox.offsetLeft;
+    var t = imgbox.offsetTop;
+    var w = hoverbox.offsetWidth;
+    var h = hoverbox.offsetHeight;
+
+    imgbox.addEventListener('mouseenter', function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+
+        // 计算图片比例
+        var zoomX = zoomedImage.offsetWidth / imgbox.offsetWidth;
+        var zoomY = zoomedImage.offsetHeight / imgbox.offsetHeight;
+
+        hoverbox.style.opacity = '0.3';
+        showbox.style.display = 'block';
+        showbox.style.backgroundImage = 'url(' + zoomedImage.src + ')';
+        showbox.style.backgroundRepeat = 'no-repeat';
+        showbox.style.backgroundSize = imgbox.offsetWidth * zoomX + 'px ' + imgbox.offsetHeight * zoomY + 'px';
+        showbox.style.backgroundPosition = -(x - l - w / 2) * zoomX + 'px ' + -(y - t - h / 2) * zoomY + 'px';
+    });
+
+    imgbox.addEventListener('mousemove', function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+
+        // 计算图片比例
+        var zoomX = zoomedImage.offsetWidth / imgbox.offsetWidth;
+        var zoomY = zoomedImage.offsetHeight / imgbox.offsetHeight;
+
+        showbox.style.backgroundPosition = -(x - l - w / 2) * zoomX + 'px ' + -(y - t - h / 2) * zoomY + 'px';
+    });
+
+    imgbox.addEventListener('mouseleave', function () {
+        hoverbox.style.opacity = '0';
+        showbox.style.display = 'none';
+    });
+}
+
+
 
 // NOTE: 检查用户是否已将该商品添加到购物车
 function checkIfHasAddedToCart() {
