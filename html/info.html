@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Basic Info</title>
+
+    <!-- <script src="../js/errorPage.js"></script> -->
+
+    <link rel="stylesheet" href="../css/navigate.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/info.css">
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/navigate.js"></script>
+    <script src="../js/sidebar.js"></script>
+
+    <script src="../js/validate.js"></script>
+    <script src="../js/info.js"></script>
+</head>
+
+<body>
+
+    <div id="navigation"></div>
+
+    <div>
+        <div id="sidebar" class="sidebar"></div>
+
+        <div id="important-info">
+
+            <div class="avatar">
+                <img src="../resource/image/avatar/sleepy.jpg" alt="Avatar">
+            </div>
+
+            <div class="balance-info">
+                <form id="balance-form">
+                    <label for="balance">Balance:</label>
+                    <label id="balance" name="balance"></label>
+                    <span class="warning positiveInter-error"></span>
+                    <input type="text" id="amount" name="amount" placeholder="Enter amount"
+                        onblur="validatePositiveInteger(this.value,this)" required>
+                    <button type="submit">Recharge</button>
+                </form>
+            </div>
+
+            <div>
+                <form id="password-form">
+                    <label for="old-password">Old Password:</label>
+                    <input type="password" id="old-password" name="old_password" placeholder="Enter your old password"
+                        required>
+
+                    <label for="password">New Password:</label>
+                    <span class="warning password-error"></span>
+                    <span class="warning password-strength"></span>
+                    <input type="password" id="password" name="password" placeholder="Enter your new password"
+                        onblur="validatePassword(this.value)" required>
+
+                    <label for="confirm-password">Confirm Password:</label>
+                    <span class="warning password-confirm-error"></span>
+                    <input type="password" id="confirm-password" name="confirm_password"
+                        placeholder="Confirm your password" onblur="validateConfirmPassword(this.value)" required>
+
+                    <button type="submit">Change Password</button>
+                    <div class="warning submit-error"></div>
+                </form>
+
+            </div>
+
+
+        </div>
+
+        <div id="basic-info">
+            <form id="basicInfo-form">
+
+                <label for="name">Name:</label>
+                <span class="warning name-error"></span>
+                <input type="text" id="name" name="name" placeholder="Enter your name" onblur="validateName(this.value)"
+                    required>
+
+                <label for="gender">*Gender:</label>
+                <select id="gender" name="gender" title="Select gender" required="false">
+                    <option value="none">None</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="birthdate">*Birthdate:</label>
+                <input type="date" id="birthdate" name="birthdate"> <!--  required="false" -->
+
+                <label for="email">*Email:</label>
+                <span class="warning email-error"></span>
+                <input type="email" id="email" name="email" placeholder="Enter your email"
+                    onblur="validateEmail(this.value)">
+
+                <label for="telephone">*Telephone:</label>
+                <span class="warning telephone-error"></span>
+                <input type="tel" id="telephone" name="telephone" placeholder="Enter your telephone"
+                    onblur="validatePhoneNumber(this.value)">
+
+                <label for="address">*Address:</label>
+                <span class="warning address-error"></span>
+                <input type="text" id="address" name="address" placeholder="Enter your address">
+
+                <button type="submit">Change Info</button>
+                <div class="warning submit-error"></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div id="footer"></div>
+
+</body>
+
+</html>

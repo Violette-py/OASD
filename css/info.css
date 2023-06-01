@@ -1,0 +1,85 @@
+#myspace a {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+#info-bar {
+    background-color: #ddd;
+}
+
+.avatar {
+
+    display: inline-block;
+
+    position: absolute;
+
+    margin-top: -280px;
+    margin-left: 50px;
+
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.balance-info {
+    position: absolute;
+    margin-top: -130px;
+    margin-left: 35px;
+}
+
+#balance-form {
+    display: flex;
+    overflow: auto;
+
+    /* padding: auto;
+    border: none !important;
+    border-style: hidden !important; */
+}
+
+label[for="balance"] {
+    margin-top: 10px;
+}
+
+#balance {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 8px;
+}
+
+#balance-form input {
+    width: 30%;
+    margin-left: 20px;
+}
+
+#balance-form button {
+    width: 30%;
+    margin-left: 30px;
+}
+
+
+#important-info {
+    display: inline-block;
+
+    margin-top: 8%;
+    margin-left: 18%;
+
+    width: 30%;
+    background-color: transparent;
+    /* #f5f5f5 */
+    /* border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); */
+    padding: 20px;
+    margin-right: 80px;
+}
+
+#basic-info {
+    display: inline-block;
+    margin-top: 60px;
+}

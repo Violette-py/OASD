@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+
+    <!-- <script src="../js/errorPage.js"></script> -->
+
+    <link rel="stylesheet" href="../css/navigate.css">
+    <link rel="stylesheet" href="../css/search.css">
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/navigate.js"></script>
+    <script src="../js/search.js"></script>
+
+</head>
+
+<body>
+
+    <div id="navigation"></div>
+
+    <form id="searchForm">
+        <input type="text" id="keywordInput" placeholder="Search for artworks">
+        <input type="radio" id="searchByTitle" name="searchBy" value="title" checked>
+        <label for="searchByTitle">Search by Title</label>
+        <input type="radio" id="searchByArtist" name="searchBy" value="artist">
+        <label for="searchByArtist">Search by Artist</label>
+        <select id="sortSelect">
+            <option value="view">Hottest</option>
+            <option value="timeReleased">Latest Issued</option>
+            <option value="year">Year of Work</option>
+            <option value="priceDesc">Price (Descending)</option>
+            <option value="priceAsc">Price (Ascending)</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="searchResultsOutput"></div>
+
+    <div id="resultsContainer"></div>
+
+    <div id="paginationContainer"></div>
+
+    <div id="footer"></div>
+
+</body>
+
+</html>

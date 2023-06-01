@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/html/error\.html$ [NC]
+RewriteRule .* /html/error.html [L]

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+
+    <!-- <script src="../js/errorPage.js"></script> -->
+
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/register.css"> <!-- 注意 这里用的是register的css -->
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/validate.js"></script>
+    <script src="../js/login.js"></script>
+</head>
+
+<body>
+    <div class="form-container">
+        <form id="login-form">
+            <!-- id="login-form" action="http://localhost:3000/php/login.php" method="post" -->
+            <h2>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+            </h2>
+            <br>
+
+            <label for="name">Name:</label> <!--  / Email 邮箱登录 -->
+            <span class="warning name-error"></span>
+            <input type="text" id="name" name="name" placeholder="Enter your name" onblur="validateName(this.value)"
+                required>
+
+            <label for="password">Password:</label>
+            <span class="warning password-error"></span>
+            <input type="password" id="password" name="password" placeholder="Enter your password"
+                onblur="validatePassword(this.value)" required>
+
+            <label for="captcha">Captcha:</label>
+            <span class="warning captcha-error"></span>
+            <div class="captcha-container">
+                <canvas id="canvas"></canvas>
+                <input type="text" id="captcha" name="captcha" placeholder="Enter the captcha"
+                    onblur="validateCaptcha(this.value)" required>
+            </div>
+
+            <button id="login-button" type="submit">Login</button>
+            <div class="warning submit-error"></div>
+        </form>
+    </div>
+</body>

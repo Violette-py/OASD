@@ -1,0 +1,77 @@
+body {
+    background: linear-gradient(60deg, #83b7ee, #c1e6f3);
+    margin: 0;
+    padding: 0;
+}
+
+#cart a {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+#shopping-list {
+    display: block;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#shopping-list li {
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.cart-item {
+    background-color: #83b7ee;
+}
+
+.item-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-checkbox,
+.item-image,
+.item-info,
+.item-intro {
+    padding: 20px;
+    display: block;
+}
+
+img {
+    width: min-content;
+}
+
+.item-info {
+    /* position: relative; */
+    display: inline-block;
+    width: 100%;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+

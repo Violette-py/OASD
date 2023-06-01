@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+
+    <!-- <script src="../js/errorPage.js"></script> -->
+
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/register.css">
+
+    <!-- <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script> -->
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/validate.js"></script>
+    <script src="../js/register.js"></script>
+</head>
+
+<body>
+    <div class="form-container">
+        <form id="register-form" action="http://localhost:3000/php/register.php" method="post">
+            <!-- <form id="register-form" action="register.php" method="post">   -->
+            <h2>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+            </h2>
+
+            <!-- <div class="label-input-container">
+            </div> -->
+
+            <!-- <div class="form-group"> -->
+
+            <label for="name">Name:</label>
+            <span class="warning name-error"></span>
+            <input type="text" id="name" name="name" placeholder="Enter your name" onblur="validateName(this.value)"
+                required>
+
+            <label for="password">Set Password:</label>
+            <span class="warning password-error"></span>
+            <span class="warning password-strength"></span>
+            <input type="password" id="password" name="password" placeholder="Enter your password"
+                onblur="validatePassword(this.value)" required>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <span class="warning password-confirm-error"></span>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password"
+                onblur="validateConfirmPassword(this.value)" required>
+
+            <label for="gender">*Gender:</label>
+            <select id="gender" name="gender" title="Select gender" required="false">
+                <!-- <option value="" selected disabled>Select gender</option> -->
+                <option value="none">None</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="birthdate">*Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate"> <!--  required="false" -->
+
+            <label for="email">*Email:</label>
+            <span class="warning email-error"></span>
+            <input type="email" id="email" name="email" placeholder="Enter your email"
+                onblur="validateEmail(this.value)">
+
+            <label for="telephone">*Telephone:</label>
+            <span class="warning telephone-error"></span>
+            <input type="tel" id="telephone" name="telephone" placeholder="Enter your telephone"
+                onblur="validatePhoneNumber(this.value)">
+
+            <label for="address">*Address:</label>
+            <span class="warning address-error"></span>
+            <input type="text" id="address" name="address" placeholder="Enter your address">
+
+            <label for="captcha">Captcha:</label>
+            <span class="warning captcha-error"></span>
+            <div class="captcha-container">
+                <canvas id="canvas"></canvas>
+                <input type="text" id="captcha" name="captcha" placeholder="Enter the captcha"
+                    onblur="validateCaptcha(this.value)" required>
+            </div>
+
+            <!-- <button type="submit" id="submit-button" value="Register"> -->
+            <button id="register-button" type="submit">Register</button>
+
+            <!-- <input type="submit" value="Register"> -->
+            <div class="warning submit-error"></div>
+            <!-- </div> -->
+        </form>
+    </div>
+
+    <footer>
+
+    </footer>
+
+    <script>
+
+    </script>
+
+</body>
+
+
+<!-- <label>Captcha:</label>
+            <input type="text" name="captcha" id="captcha">
+            <div></div>
+            <button>提交</button> -->
+
+<!-- <label for="captcha">Captcha:</label>
+            <input type="text" id="captchaInput" required>
+            <img id="captchaImage" src="" alt="Captcha"><br> -->

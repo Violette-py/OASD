@@ -1,0 +1,181 @@
+.main-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.left {
+    flex: 0.8;
+    margin-left: 80px;
+    margin-top: 70px;
+    height: 700px;
+    /* display: inline-block; */
+}
+
+.right {
+    flex: 1.2;
+    margin-left: 50px;
+    margin-right: 150px;
+}
+
+.image {
+    flex: 1;
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    height: 550px;
+}
+
+.image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.action {
+    margin-top: 40px;
+
+}
+
+.price,
+.status,
+.view,
+#likes,
+#shopping {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+label {
+    display: inline-block;
+    /* margin-bottom: 10px; */
+    font-weight: bold;
+}
+
+
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.artist {
+    font-size: 18px;
+    font-style: italic;
+}
+
+.introduction {
+    flex: 1;
+    margin-top: 20px;
+}
+
+.basic-info {
+    margin-top: 30px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #5bb1dc;
+    /* #529dc2 */
+    margin-top: 20px;
+
+    border: 1px solid #b8d7ec;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+table th,
+td {
+    padding: 10px;
+    border: 2px solid #0b0c0c;
+    /* 设置边框线为实线，黑色 */
+    text-align: center;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+/* comment */
+
+.comment-container {
+    display: block;
+    margin-bottom: 100px;
+    margin-left: 100px;
+}
+
+
+textarea {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 20%;
+    padding: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+#comment-list {
+    display: block;
+}
+
+.child-list {
+    display: block;
+}
+
+.li-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #5bb1dc;
+    margin: 10px;
+    width: 100%;
+}
+
+.commenter-info-container {
+    display: flex;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 40px;
+}
+
+#comment-list button {
+    height: 35px;
+    margin-top: -10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.like-count {
+    margin-left: 20px;
+}
+
+.liked {
+    background-color: rgb(214, 101, 129);
+}
+
+/* 禁用状态的按钮样式 */
+button[disabled] {
+    background-color: #9f9191;
+    cursor: not-allowed; 
+  }
+
+
+

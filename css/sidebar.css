@@ -1,0 +1,47 @@
+#sidebar {
+
+    display: inline-block;
+
+    position: absolute;
+    /* 防止侧栏受旁边div的影响 */
+
+    width: 10%;
+    /* top: 100px; */
+    margin-top: 150px;
+
+    background: rgb(195, 217, 240);
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#sidebar ul {
+
+    list-style-type: none;
+    padding: 100px;
+    margin: 50px;
+
+    display: block;
+
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+
+#sidebar li {
+    /* width: 100px; */
+    margin: 0;
+}
+
+#sidebar a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    color: #1b5b9e;
+}
+
+#sidebar a:hover {
+    background-color: #ddd;
+}

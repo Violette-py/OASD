@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violette's Wolrd</title>
+
+    <link rel="stylesheet" href="../css/navigate.css">
+    <link rel="stylesheet" href="../css/home.css">
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/navigate.js"></script>
+    <script src="../js/home.js"></script>
+</head>
+
+<body>
+    <!-- 这种写法需要每个页面都写导航栏 -->
+    <!-- <nav>
+        <ul>
+            <li><a href="../home/home.html">Home</a></li>
+            <li><a href="../center/center.html">My Space</a></li>
+            <li><a href="../shopping/shopping.html">Shopping Cart</a></li>
+            <li><a id="outline">Issue</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+        <form>
+            <input type="text" placeholder="Search for artworks">
+            <select>
+                <option value="最新">latest</option>
+                <option value="最热">hottest</option>
+                <option value="价格">price</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </nav> -->
+
+    <div id="navigation"></div>
+
+    <button id="toggle-music-button">Toggle Music</button>
+
+    <form id="searchForm">
+        <input type="text" placeholder="Search for artworks">
+        <select>
+            <option value="最新">latest</option>
+            <option value="最热">hottest</option>
+            <option value="价格">price</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="slider">
+
+        <ul class="slider-main"></ul>
+
+        <div class="slider-extra">
+            <ul class="slider-nav"></ul>
+            <div class="slider-page">
+                <a class="slider-pre" href="javascript:;">&lt;</a>
+                <a class="slider-next" href="javascript:;">&gt;</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="slider">
+    </div>
+
+    <div class="progress">
+    </div>
+
+    <div class="prev">&lt;</div>
+    <div class="next">&gt;</div> -->
+
+    <!-- <div id="slideshow">
+
+        <div class="slides"></div>
+
+        <div class="buttons">
+            <button class="prev">Prev</button>
+            <button class="next">Next</button>
+        </div>
+
+        <div class="progress">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </div> -->
+
+    <div id="footer"></div>
+
+</body>
+
+</html>

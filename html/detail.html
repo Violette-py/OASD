@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+
+    <link rel="stylesheet" href="../css/navigate.css">
+    <link rel="stylesheet" href="../css/detail.css" defer>
+
+
+    <script src="../js/navigate.js"></script>
+    <script src="../js/music.js"></script>
+    <script src="../js/detail.js"></script>
+    <script src="../js/operation.js"></script>
+
+</head>
+
+<body>
+
+    <div id="navigation"></div>
+
+    <div class="main-content">
+
+        <div class="left">
+
+            <div class="image">
+                <img id="artworkImage" src="" alt="Artwork Image">
+            </div>
+
+            <div class="action">
+                <div class="price">
+                    <label>Price:</label>
+                    <label id="filled-price"></label>
+                </div>
+                <div class="status">
+                    <label>Status:</label>
+                    <label id="filled-status"></label>
+                </div>
+                <div class="view">
+                    <label>View:</label>
+                    <label id="filled-view"></label>
+                </div>
+                <button type="submit" id="shopping" name="shopping">shopping</button>
+            </div>
+
+        </div>
+
+        <div class="right">
+
+            <div class="header">
+                <h1 class="title"></h1>
+                <p class="artist"></p>
+            </div>
+
+            <div class="introduction">
+                <p></p>
+            </div>
+
+            <div class="basic-info">
+                <table>
+                    <tr>
+                        <th>Genre</th>
+                        <td id="genre"></td>
+                    </tr>
+                    <tr>
+                        <th>Year</th>
+                        <td id="year"></td>
+                    </tr>
+                    <tr>
+                        <th>Width</th>
+                        <td id="width"></td>
+                    </tr>
+                    <tr>
+                        <th>Height</th>
+                        <td id="height"></td>
+                    </tr>
+                    <tr>
+                        <th>Released Time</th>
+                        <td id="released-time"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="comment-container">
+        <h2>Comment</h2>
+
+        <div>
+            <textarea id="comment-input" rows="4" cols="50" placeholder="Express here freely"></textarea>
+            <button type="submit" id="comment-button">comment</button>
+        </div>
+
+        <ul id="comment-list">
+            <!-- 评论列表将在 JavaScript 中动态生成 -->
+        </ul>
+    </div>
+
+    <div id="footer"></div>
+
+</body>
+
+</html>

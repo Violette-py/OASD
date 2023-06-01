@@ -1,0 +1,98 @@
+body {
+    background: linear-gradient(60deg, #83b7ee, #c1e6f3);
+    margin: 0;
+    padding: 0;
+}
+
+#issue a {
+    position: relative;
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+.issue-container {
+    display: flex;
+    align-items: center;
+}
+
+.preview,
+.form-container {
+    flex: 1;
+}
+
+.preview {
+    width: 100px;
+    height: 600px;
+
+    position: relative;
+    left: 80px;
+    top: -40px;
+
+    /* margin-left: 10px;
+    margin-right: 50px; */
+    border-radius: 10px;
+    overflow: hidden;
+
+    background: linear-gradient(60deg, #83b7ee, #c1e6f3);
+
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.magnifier {
+    position: absolute;
+    width: 100px;
+    /* 小圆镜子的尺寸 */
+    height: 100px;
+    border-radius: 50%;
+    /* 小圆镜子为圆形 */
+    border: 2px solid #000;
+    background-size: 400% 400%;
+    /* 放大的倍数 */
+    background-repeat: no-repeat;
+    background-position: center center;
+    pointer-events: none;
+    /* 防止小圆镜子遮挡 */
+}
+
+.preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-container {
+    position: relative;
+    top: -60px;
+}
+
+#upload {
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    /* border-radius: 5px; */
+    /* border: 1px solid #ccc; */
+    box-sizing: none;
+    font-size: 16px;
+    /* outline: none; */
+    display: inline-block;
+}
+
+.upload-container {
+    display: flex;
+}
+
+/* label[for="upload"] {
+    margin-left: 20px;
+} */
+
+.upload {
+    margin-left: 20px;
+}
+
+#preview-image {
+    max-width: 100%;
+    max-height: 100%;
+}

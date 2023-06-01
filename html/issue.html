@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue</title>
+
+    <!-- <script src="../js/errorPage.js"></script> -->
+
+    <link rel="stylesheet" href="../css/navigate.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/issue.css">
+
+    <script src="../js/music.js"></script>
+
+    <script src="../js/navigate.js"></script>
+    <script src="../js/validate.js"></script>
+    <script src="../js/issue.js"></script>
+</head>
+
+<body>
+
+    <div id="navigation"></div>
+
+    <div class="issue-container">
+        <div class="preview">
+            <div class="magnifier"></div>
+            <img id="preview-image" alt="预览图片">
+        </div>
+
+        <div class="form-container">
+            <form id="issue-form">
+                <div>
+                    <label for="title">Title:</label>
+                    <span class="warning null-error"></span>
+                    <input type="text" id="title" name="title" placeholder="Enter the title of artwork"
+                        onblur="validateNotNull(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="artist">Artist:</label>
+                    <span class="warning null-error"></span>
+                    <input type="text" id="artist" name="artist" placeholder="Enter the artist of artwork"
+                        onblur="validateNotNull(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="genre">Genre:</label>
+                    <span class="warning null-error"></span>
+                    <input type="text" id="genre" name="genre" placeholder="Enter the genre of artwork"
+                        onblur="validateNotNull(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="year">Year:</label>
+                    <span class="warning positiveInter-error"></span>
+                    <input type="text" id="year" name="year" placeholder="Enter the year of artwork"
+                        onblur="validatePositiveInteger(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="price">Price:</label>
+                    <span class="warning positiveInter-error"></span>
+                    <input type="text" id="price" name="price" placeholder="Enter the price of artwork"
+                        onblur="validatePositiveInteger(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="width">Width:</label>
+                    <span class="warning positive-error"></span>
+                    <input type="text" id="width" name="width" placeholder="Enter the width of artwork"
+                        onblur="validatePositive(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="height">Height:</label>
+                    <span class="warning positive-error"></span>
+                    <input type="text" id="height" name="height" placeholder="Enter the height of artwork"
+                        onblur="validatePositive(this.value,this)" required>
+                </div>
+
+                <div>
+                    <label for="introduction">Introduction:</label>
+                    <span class="warning null-error"></span>
+                    <textarea id="introduction" name="introduction" placeholder="Enter the introduction of artwork"
+                        onblur="validateNotNull(this.value,this)" required></textarea>
+                </div>
+
+                <div class="upload-container">
+                    <label for="upload">Picture:</label>
+                    <span class="warning null-error"></span>
+                    <input type="file" id="upload" name="upload" onchange="previewImage(event)">
+                    <!-- required -->
+                </div>
+
+                <span class="warning submit-error"></span>
+                <button type="submit" id="submit-btn">Issue</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+
+</body>
+
+</html>

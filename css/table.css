@@ -1,0 +1,35 @@
+table {
+
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 50px;
+    /* position: relative;
+    top: -60px; */
+    /* padding-bottom: 50px; */
+}
+
+table th,
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+.table-container {
+    display: inline-block;
+    margin-top: 150px;
+    margin-left: 400px;
+
+    width: 50%;
+    background-color: rgb(166, 215, 233, 0.5);
+    /* #f5f5f5; */
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+
+    /* background: linear-gradient(60deg, #83b7ee, #c1e6f3); */
+}
