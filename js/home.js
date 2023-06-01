@@ -8,142 +8,151 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // NOTE: 图片轮播
 
-    getRecommended();
+    // getRecommended();
 
-    var currentIndex = 0,
+    var length,
+        currentIndex = 0,
         interval,
-        hasStarted = true, //是否已经开始轮播
-        t = 3000; //轮播时间间隔
+        hasStarted = true, // 是否已经开始轮播
+        t = 3000; // 轮播时间间隔
 
+    // 获取轮播面板数量
     var sliderMain = document.querySelector('.slider-main');
-    var sliderNav = document.querySelector('.slider-nav');
-    // var length; // 声明 length 变量
+    var sliderPanels = []; // 存储轮播面板的数组
 
     const url = 'http://localhost:3000/php/getArtwork.php';
 
-    // 构建带参数的 URL
     const params = new URLSearchParams({
-        requestType: 'getRecommended'
+        requestType: 'getRecommended',
+        userId: sessionStorage.getItem('userId')
     });
 
-    // fetch(`${url}?${params}`)
-    //     .then(response => response.json())
-    //     .then(function (data) {
-    //         console.log(data);
-    //         length = data.length; // 赋值 length 变量
+    // NOTE: 请求推荐数据
+    fetch(`${url}?${params}`)
+        .then(response => response.json())
+        .then(data => {
 
-    //         // 构建轮播图
-    //         data.forEach(function (item, index) {
-    //             var panel = document.createElement('li');
-    //             panel.classList.add('slider-panel');
+            console.log(data);
 
-    //             var img = document.createElement('img');
-    //             img.src = '../resource/image/artwork/' + item.imageFileName;
-    //             panel.appendChild(img);
+            // 根据获取到的数据动态创建轮播项
+            for (var i = 0; i < data.length; i++) {
+                (function () {  // NOTE: 函数闭包
+                    var item = data[i];
+                    var li = document.createElement('li');
+                    li.className = 'slider-panel';
 
-    //             // var p = document.createElement('p');
-    //             // p.id = 'workDescrip';
-    //             // p.textContent = item.introduction;
-    //             // panel.appendChild(p);
+                    var img = document.createElement('img');
+                    img.src = '../resource/image/artwork/' + item.imageFileName;
 
-    //             sliderMain.appendChild(panel);
+                    img.addEventListener('click', function () {
+                        const detailUrl = `../html/detail.html?artworkId=${item.artworkId}`;
+                        console.log(item.artworkId);
+                        window.location.href = detailUrl;
+                    });
 
-    //             var navItem = document.createElement('li');
-    //             navItem.classList.add('slider-item');
-    //             navItem.textContent = index + 1;
-    //             navItem.dataset.index = index;
+                    li.appendChild(img);
 
-    //             sliderNav.appendChild(navItem);
-    //         });
+                    sliderPanels.push(li);
+                    sliderMain.appendChild(li);
+                })();
+            }
 
-    //         // 将除了第一张图片隐藏
-    //         var panels = document.querySelectorAll('.slider-panel');
-    //         panels.forEach(function (panel, index) {
-    //             if (index !== 0) {
-    //                 panel.style.display = 'none';
-    //             }
-    //         });
+            // 初始化轮播
+            length = sliderPanels.length;
+            sliderPanels[0].style.display = 'block';
+            document.querySelector('.slider-item').classList.add('slider-item-selected');
+            document.querySelector('.slider-page').style.display = 'none';  // NOTE: 这里为什么要设置页数为none
 
-    //         // 将第一个slider-item设为激活状态
-    //         var sliderItems = document.querySelectorAll('.slider-item');
-    //         sliderItems[0].classList.add('slider-item-selected');
+            // 鼠标悬停事件
+            var slider = document.querySelector('.slider');
+            slider.addEventListener('mouseenter', function () {
+                stop();
+                document.querySelector('.slider-page').style.display = 'block';
+            });
 
-    //         // 隐藏向前、向后翻按钮
-    //         var sliderPage = document.querySelector('.slider-page');
-    //         sliderPage.style.display = 'none';
+            slider.addEventListener('mouseleave', function () {
+                start();
+                document.querySelector('.slider-page').style.display = 'none';
+            });
 
-    //         // 鼠标上悬时显示向前、向后翻按钮,停止滑动，鼠标离开时隐藏向前、向后翻按钮，开始滑动
-    //         var sliderElements = document.querySelectorAll('.slider-panel, .slider-pre, .slider-next');
-    //         sliderElements.forEach(function (element) {
-    //             element.addEventListener('mouseenter', function () {
-    //                 stop();
-    //                 sliderPage.style.display = 'block';
-    //             });
+            // 上一页按钮点击事件
+            var preBtn = document.querySelector('.slider-pre');
+            preBtn.addEventListener('click', function () {
+                pre();
+            });
 
-    //             // ... 继续添加其他事件监听器
-    //         });
+            // 下一页按钮点击事件
+            var nextBtn = document.querySelector('.slider-next');
+            nextBtn.addEventListener('click', function () {
+                next();
+            });
 
-    //         // 开始轮播
-    //         start();
+            // 底部导航项点击事件
+            var sliderItems = document.querySelectorAll('.slider-item');
+            for (var i = 0; i < sliderItems.length; i++) {
+                (function (i) {
+                    sliderItems[i].addEventListener('click', function () {
+                        var preIndex = currentIndex;
+                        currentIndex = i;
+                        play(preIndex, currentIndex);
+                    });
+                })(i);
+            }
 
-    //         // ... 继续添加其他函数和代码
-    //     });
+            // 向前翻页
+            function pre() {
+                var preIndex = currentIndex;
+                currentIndex = (currentIndex - 1 + length) % length;
+                play(preIndex, currentIndex);
+            }
 
-    /**
-     * 开始轮播
-     */
-    function start() {
+            // 向后翻页
+            function next() {
+                var preIndex = currentIndex;
+                currentIndex = (currentIndex + 1) % length;
+                play(preIndex, currentIndex);
+            }
 
-        console.log('here is start');
+            /**
+             * 从 preIndex 页翻到 currentIndex 页
+             * @param {number} preIndex - 起始页索引
+             * @param {number} currentIndex - 目标页索引
+             */
+            function play(preIndex, currentIndex) {
+                sliderPanels[preIndex].style.display = 'none';
+                sliderPanels[currentIndex].style.display = 'block';
 
-        if (!hasStarted) {
-            hasStarted = true;
-            interval = setInterval(next, t);
-        }
-    }
+                sliderItems[preIndex].classList.remove('slider-item-selected');
+                sliderItems[currentIndex].classList.add('slider-item-selected');
+            }
 
-    /**
-     * 停止轮播
-     */
-    function stop() {
+            /**
+             * 开始轮播
+             */
+            function start() {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    interval = setInterval(next, t);
+                }
+            }
 
-        console.log('here is stop');
+            /**
+             * 停止轮播
+             */
+            function stop() {
+                clearInterval(interval);
+                hasStarted = false;
+            }
 
-        clearInterval(interval);
-        hasStarted = false;
-    }
+            // NOTE: 开始轮播
+            start();
+        })
+        .catch(error => {
+            console.log('获取轮播数据时出错:', error);
+        });
 
-    /**
-     * 向后翻页
-     */
-    function next() {
 
-        console.log('here is next');
 
-        stop(); // 先停止自动轮播
-        var preIndex = currentIndex;
-        currentIndex = ++currentIndex % length;
-        play(preIndex, currentIndex);
-        start(); // 手动翻页后重新开始自动轮播
-    }
-
-    /**
-     * 从preIndex页翻到currentIndex页
-     * preIndex 整数，翻页的起始页
-     * currentIndex 整数，翻到的那页
-     */
-    function play(preIndex, currentIndex) {
-
-        console.log('here is play');
-
-        var panels = document.querySelectorAll('.slider-panel');
-        panels[preIndex].style.display = 'none';
-        panels[currentIndex].style.display = 'block';
-
-        var sliderItems = document.querySelectorAll('.slider-item');
-        sliderItems[preIndex].classList.remove('slider-item-selected');
-        sliderItems[currentIndex].classList.add('slider-item-selected');
-    }
 });
 
 // NOTE: 获取向用户推荐的4件商品
@@ -233,36 +242,36 @@ function displayResults(results) {
             const detailUrl = `../html/detail.html?artworkId=${result.artworkId}`;
             // 跳转到修改页面
             window.location.href = detailUrl;
-        
+
         });
 
-    var infoDiv = document.createElement("div");
-    infoDiv.classList.add("infoDiv");
-    var title = document.createElement("h3");
-    title.classList.add("title");
-    title.textContent = result.title;
-    infoDiv.appendChild(title);
+        var infoDiv = document.createElement("div");
+        infoDiv.classList.add("infoDiv");
+        var title = document.createElement("h3");
+        title.classList.add("title");
+        title.textContent = result.title;
+        infoDiv.appendChild(title);
 
-    var artist = document.createElement("p");
-    artist.classList.add("artist");
-    artist.textContent = "by " + result.artist;
-    infoDiv.appendChild(artist);
+        var artist = document.createElement("p");
+        artist.classList.add("artist");
+        artist.textContent = "by " + result.artist;
+        infoDiv.appendChild(artist);
 
-    var price = document.createElement("p");
-    price.classList.add("price");
-    price.textContent = "Price: " + result.price;
-    infoDiv.appendChild(price);
+        var price = document.createElement("p");
+        price.classList.add("price");
+        price.textContent = "Price: " + result.price;
+        infoDiv.appendChild(price);
 
-    topDiv.appendChild(imageDiv);
-    topDiv.appendChild(infoDiv);
+        topDiv.appendChild(imageDiv);
+        topDiv.appendChild(infoDiv);
 
-    var introduction = document.createElement("p");
-    introduction.classList.add('intro');
-    introduction.textContent = result.introduction;
+        var introduction = document.createElement("p");
+        introduction.classList.add('intro');
+        introduction.textContent = result.introduction;
 
-    artworkDiv.appendChild(topDiv);
-    artworkDiv.appendChild(introduction);
+        artworkDiv.appendChild(topDiv);
+        artworkDiv.appendChild(introduction);
 
-    resultsContainer.appendChild(artworkDiv);
-});
+        resultsContainer.appendChild(artworkDiv);
+    });
 }

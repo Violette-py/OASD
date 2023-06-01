@@ -202,6 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 }
             }
 
+            // FIXME: 是否需要考虑售出状态？
+
             // 截取排名前四的商品
             $topArtworks = array_slice($artworks, 0, 4);
 
@@ -209,9 +211,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // $randomArtworks = getRandomArtworks($conn, $genres, 4);
 
             // 返回结果
-            $response = [
-                'artworks' => $topArtworks
-            ];
+            // $response = [
+            //     'artworks' => $topArtworks
+            // ];
+
+            $response =  $topArtworks;
 
             break;
 
