@@ -5,6 +5,7 @@
 // 允许来自任何源的跨域请求 (可以将*替换为相应的具体的源)
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: *");
 
 // header("Access-Control-Allow-Origin: http://localhost:3000");
 // header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
