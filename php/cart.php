@@ -107,38 +107,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $conn->query($orderQuery);
                         }
 
+                        // NOTE: 以下功能通过数据库的trigger实现
+
                         // // artwork表单 -- 修改商品状态为"已售出"
-                        foreach ($artworkIds as $artworkId) {
-                            $updateSql = "UPDATE artwork SET status = '已售出' WHERE artworkId = '$artworkId'";
-                            $conn->query($updateSql);
-                        }
+                        // foreach ($artworkIds as $artworkId) {
+                        //     $updateSql = "UPDATE artwork SET status = '已售出' WHERE artworkId = '$artworkId'";
+                        //     $conn->query($updateSql);
+                        // }
 
-                        // artwork表单 -- 修改商品状态为"已售出"，获取卖方信息
-                        $sellerQuery = "SELECT ownerId, price FROM artwork WHERE artworkId IN (" . implode(',', $artworkIds) . ")";
-                        $sellerResult = $conn->query($sellerQuery);
+                        // // artwork表单 -- 更新卖方用户余额
+                        // $sellerQuery = "SELECT ownerId, price FROM artwork WHERE artworkId IN (" . implode(',', $artworkIds) . ")";
+                        // $sellerResult = $conn->query($sellerQuery);
 
-                        while ($row = $sellerResult->fetch_assoc()) {
-                            $artworkOwner = $row['ownerId'];
-                            $artworkPrice = $row['price'];
+                        // while ($row = $sellerResult->fetch_assoc()) {
+                        //     $artworkOwner = $row['ownerId'];
+                        //     $artworkPrice = $row['price'];
 
-                            // 更新卖方用户余额
-                            $sellerUpdateQuery = "UPDATE user SET balance = balance + $artworkPrice WHERE userId = '$artworkOwner'";
-                            $conn->query($sellerUpdateQuery);
+                        //     $sellerUpdateQuery = "UPDATE user SET balance = balance + $artworkPrice WHERE userId = '$artworkOwner'";
+                        //     $conn->query($sellerUpdateQuery);
+                        // }
 
-                            // // 修改商品状态为"已售出"
-                            // $artworkUpdateQuery = "UPDATE artwork SET `status` = '已售出' WHERE artworkId = '$artworkId'";
-                            // $conn->query($artworkUpdateQuery);
-                        }
+                        // // cart表单 -- 删除已购买的商品
+                        // $cartIdsString = implode(',', $cartIds);
+                        // $cartDeleteQuery = "DELETE FROM cart WHERE cartId IN ($cartIdsString)";
+                        // $conn->query($cartDeleteQuery);
 
-                        // cart表单 -- 删除已购买的商品
-                        $cartIdsString = implode(',', $cartIds);
-                        $cartDeleteQuery = "DELETE FROM cart WHERE cartId IN ($cartIdsString)";
-                        $conn->query($cartDeleteQuery);
-
-                        // user表单 -- 更新买方用户余额
-                        $newBalance = $balance - $totalPrice;
-                        $userUpdateQuery = "UPDATE user SET balance = $newBalance WHERE userId = '$userId'";
-                        $conn->query($userUpdateQuery);
+                        // // user表单 -- 更新买方用户余额
+                        // $newBalance = $balance - $totalPrice;
+                        // $userUpdateQuery = "UPDATE user SET balance = $newBalance WHERE userId = '$userId'";
+                        // $conn->query($userUpdateQuery);
 
                         // 提交事务
                         $conn->commit();
@@ -152,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // 出现异常，回滚事务
                         $conn->rollback();
 
-                        // 返回购买失败信息
                         $response = [
                             'success' => false,
                             'message' => '购买失败：' . $e->getMessage()

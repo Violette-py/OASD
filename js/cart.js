@@ -96,7 +96,7 @@ async function getCartItems() {
                 image.addEventListener('click', () => {
                     // localStorage.setItem('selectedArtworkId', item.artworkId);  // image.dataset.artworkId
                     // window.location.href = '../html/detail.html';
-                
+
                     const detailUrl = `../html/detail.html?artworkId=${item.artworkId}`;
                     window.location.href = detailUrl;
                 });
@@ -190,11 +190,14 @@ function handleCartPurchase() {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    artworkIds.forEach(function (artworkId) {
-                        recordUserOperation(artworkId, 3);
-                    });
-                }
+
+                // NOTE: 记录用户行为用trigger实现
+                
+                // if (data.success) {
+                //     artworkIds.forEach(function (artworkId) {
+                //         recordUserOperation(artworkId, 3);
+                //     });
+                // }
                 alert(data.message);
                 // 刷新用户购物车界面
                 window.location.href = '../html/cart.html';

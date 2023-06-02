@@ -261,7 +261,7 @@ function checkIfHasAddedToCart() {
 function confirmAddToCart() {
     if (confirm('确定要将该商品添加到购物车吗？')) {
         addToCart();
-        recordUserOperation(localStorage.getItem('selectedArtworkId'), 2);
+        // recordUserOperation(localStorage.getItem('selectedArtworkId'), 2);
     }
 }
 
