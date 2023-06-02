@@ -61,12 +61,13 @@ async function getCartItems() {
                 checkboxInput.dataset.price = item.price;  // NOTE: 设置价格属性（便于后续总价加和）
                 checkboxInput.dataset.cartId = item.cartId;
                 checkboxInput.dataset.artworkId = item.artworkId;
+                checkboxInput.dataset.status = item.status; // NOTE: 已售出的商品不能购买
 
                 // NOTE: 商品已售出时则无法选中复选框 - 无法购买
                 if (item.status === '已售出') {
-                    checkboxInput.disabled = true; // 禁用复选框
-                    checkboxInput.checked = false; // 不选中复选框
-                    checkboxInput.title = '该商品已售出'; // 设置提示信息
+                    // checkboxInput.disabled = true; // 禁用复选框
+                    // checkboxInput.checked = false; // 不选中复选框
+                    // checkboxInput.title = '该商品已售出'; // 设置提示信息
 
                     const soldSpan = document.createElement('span');
                     soldSpan.classList.add('item-sold-message');
@@ -158,9 +159,16 @@ function handleCartPurchase() {
     const selectedItems = Array.from(document.querySelectorAll('.cart-item input[type="checkbox"]:checked'));
     const cartIds = selectedItems.map(item => item.dataset.cartId); // 获取选中的cartId数组
     const artworkIds = selectedItems.map(item => item.dataset.artworkId); // cartId对应的artworkId数组
+    const artworkStatuses = selectedItems.map(item => item.dataset.status); // cartId对应的status数组
 
     if (selectedItems.length === 0) {
         alert('请选择要购买的商品！');
+        return;
+    }
+
+    if(artworkStatuses.includes('已售出')){
+        alert('无法购买已售出的商品！');
+        window.location.href = '../html/cart.html';
         return;
     }
 
@@ -192,7 +200,7 @@ function handleCartPurchase() {
             .then(data => {
 
                 // NOTE: 记录用户行为用trigger实现
-                
+
                 // if (data.success) {
                 //     artworkIds.forEach(function (artworkId) {
                 //         recordUserOperation(artworkId, 3);

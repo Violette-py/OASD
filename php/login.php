@@ -52,7 +52,7 @@ if ($row) {
 
         $response = [
             'success' => false,
-            'message' => '登录失败，用户名或密码错误'
+            'message' => '登录失败，密码错误'
         ];
         // echo "<script>alert('用户名或密码错误');history.back();</script>";
     }

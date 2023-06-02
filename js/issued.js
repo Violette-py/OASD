@@ -58,16 +58,23 @@ window.addEventListener('DOMContentLoaded', function () {
                 statusCell.textContent = artwork.status;
                 row.appendChild(statusCell);
 
-                // 创建Modify超链接项
+                // 创建 Modify 超链接项
                 const modifyCell = document.createElement('td');
                 const modifyLink = document.createElement('a');
                 modifyLink.textContent = 'Modify';
                 modifyLink.href = '#';
-                // FIXME: 只有未售出的商品可以修改
                 modifyLink.dataset.artworkId = artwork.artworkId;
-                modifyLink.addEventListener('click', handleModifyClick);
+
+                if (artwork.status === '已售出') {
+                    modifyLink.disabled = true; // NOTE: 已售出的商品不能修改
+                    modifyLink.title = '该画作已售出，无法修改信息'; // 悬浮提示文本
+                } else {
+                    modifyLink.addEventListener('click', handleModifyClick);
+                }
+
                 modifyCell.appendChild(modifyLink);
                 row.appendChild(modifyCell);
+
 
                 // 创建Detail超链接项
                 const detailCell = document.createElement('td');
@@ -103,6 +110,7 @@ function handleModifyClick(event) {
 
     // 获取artworkId
     const artworkId = event.target.dataset.artworkId;
+    console.log('artworkId in handleModifyClick:' + artworkId);
 
     // 构造修改页面的URL，并包含artworkId参数
     const modifyUrl = `../html/issue.html?artworkId=${artworkId}`;

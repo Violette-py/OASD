@@ -110,6 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // NOTE: 修改基本信息
             case 'updateBasicInfo':
+                $userId = $data['userId'];
+
                 $name = $data['name'];
                 $gender = $data['gender'];
                 $birthdate = $data['birthdate'];
@@ -118,7 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $address = $data['address'];
 
                 // 查询数据库中是否存在相同的用户名
-                $query = "SELECT COUNT(*) FROM user WHERE name = '$name'";
+                // $query = "SELECT COUNT(*) FROM user WHERE name = '$name'";
+                $query = "SELECT COUNT(*) FROM user WHERE `name` = '$name' AND userId != '$userId'";
                 $result = mysqli_query($conn, $query);
                 $row = mysqli_fetch_array($result);
 

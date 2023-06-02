@@ -51,6 +51,9 @@ function search(event) {
 
             if (data.length > 0) {
 
+                // searchResultsOutput.innerHTML = document.getElementById("keywordInput").value.trim();
+
+                // FIXME:
                 var searchCountText = document.createElement("p");
                 searchCountText.textContent = "Search results : " + data.length + " records found.";
                 searchResultsOutput.appendChild(searchCountText);

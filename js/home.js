@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     var img = document.createElement('img');
                     img.src = '../resource/image/artwork/' + item.imageFileName;
+                    img.alt = item.title;
 
                     img.addEventListener('click', function () {
                         const detailUrl = `../html/detail.html?artworkId=${item.artworkId}`;

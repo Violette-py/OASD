@@ -48,18 +48,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // FIXME: 检查artworkId是否合法，不合法就重定向到error界面
 
-                // 将商品信息填充到表单输入框中
-                document.getElementById('preview-image').src = '../resource/image/artwork/' + data.imageFileName;
-                document.getElementById('title').value = data.title;
-                document.getElementById('artist').value = data.artist;
-                document.getElementById('genre').value = data.genre;
-                document.getElementById('year').value = data.year;
-                document.getElementById('price').value = data.price;
-                document.getElementById('width').value = data.width;
-                document.getElementById('height').value = data.height;
-                document.getElementById('introduction').value = data.introduction;
+                if (data.success) {
 
-                document.getElementById('submit-btn').textContent = 'Change Info';
+                    // 将商品信息填充到表单输入框中
+                    document.getElementById('preview-image').src = '../resource/image/artwork/' + data.data.imageFileName;
+                    document.getElementById('title').value = data.data.title;
+                    document.getElementById('artist').value = data.data.artist;
+                    document.getElementById('genre').value = data.data.genre;
+                    document.getElementById('year').value = data.data.year;
+                    document.getElementById('price').value = data.data.price;
+                    document.getElementById('width').value = data.data.width;
+                    document.getElementById('height').value = data.data.height;
+                    document.getElementById('introduction').value = data.data.introduction;
+
+                    document.getElementById('submit-btn').textContent = 'Change Info';
+
+                } else {
+                    window.location.href = '../html/error.html';
+                }
+
             })
             .catch(error => {
                 console.error('Error:', error);

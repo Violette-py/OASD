@@ -91,7 +91,7 @@ window.addEventListener('DOMContentLoaded', function () {
         commentButton.title = '您尚未登录';
     }
 
-    // FIXME: 同步更新artwork的view字段 -- 能否应用trigger实现？
+    // FIXME: 同步更新artwork的view字段 -- 能否应用trigger实现？ -- 已经实现了！
 
     // NOTE: 获取评论列表
     fetchComments();
@@ -128,7 +128,12 @@ function getArtworkDetail(artworkId) {
                 zoomedImage.src = imagePath;
 
                 document.querySelector('.title').textContent = data.data.title;
+
+                // FIXME:
                 document.querySelector('.artist').textContent = data.data.artist;
+                // document.querySelector('.artist').innerHTML = data.data.artist;
+                console.log(data.data.artist);
+
                 document.querySelector('.introduction p').textContent = data.data.introduction;
                 document.querySelector('#filled-price').textContent = data.data.price;
                 document.querySelector('#filled-status').textContent = data.data.status;
@@ -137,6 +142,7 @@ function getArtworkDetail(artworkId) {
                 document.querySelector('#year').textContent = data.data.year;
                 document.querySelector('#width').textContent = data.data.width;
                 document.querySelector('#height').textContent = data.data.height;
+                document.querySelector('#owner-name').textContent = data.data.ownerName;
                 document.querySelector('#released-time').textContent = data.data.releasedTime;
 
                 // NOTE: 检查shoppingButton的状态
@@ -147,16 +153,16 @@ function getArtworkDetail(artworkId) {
                 if (!userId) {
                     shoppingButton.disabled = true;
                     shoppingButton.title = '您尚未登录';
-                } else 
-                if (data.data.ownerId === userId) {
-                    shoppingButton.disabled = true;
-                    shoppingButton.title = '您不能购买自己发布的艺术品';
-                } else if (data.data.status === '已售出') {
-                    shoppingButton.disabled = true;
-                    shoppingButton.title = '该画作已售出';
-                } else {
-                    checkIfHasAddedToCart();
-                }
+                } else
+                    if (data.data.ownerId === userId) {
+                        shoppingButton.disabled = true;
+                        shoppingButton.title = '您不能购买自己发布的艺术品';
+                    } else if (data.data.status === '已售出') {
+                        shoppingButton.disabled = true;
+                        shoppingButton.title = '该画作已售出';
+                    } else {
+                        checkIfHasAddedToCart();
+                    }
 
             } else {
                 // NOTE: 不合法url（未找到对应的artwork），重定向到error界面
@@ -254,7 +260,6 @@ function checkIfHasAddedToCart() {
         .catch(error => {
             console.error('Error:', error);
         });
-
 }
 
 // 确认添加到购物车
@@ -296,14 +301,20 @@ function addToCart() {
         });
 }
 
-// NOTE: 添加评论
+// NOTE: 直接添加评论
 function handleCommentSubmit(event) {
     console.log('here is submit');
     event.preventDefault(); // 阻止表单的默认提交行为
 
+    const content = document.getElementById('comment-input').value;
+    console.log(content);
+
     // FIXME: 检查不为空再提交
 
-    const content = document.getElementById('comment-input').value;
+    if (!content.trim()) {
+        alert('请输入内容！');
+        return false;
+    }
 
     const commentData = {
         requestType: 'addComment',
@@ -314,6 +325,7 @@ function handleCommentSubmit(event) {
     };
 
     addComment(commentData);
+
 }
 
 // NOTE: 获取评论列表
@@ -408,6 +420,7 @@ function addComment(requestData) {
 // 否则，显示回复框供用户输入新的回复内容。
 // 这样，用户可以在同一个回复按钮上进行连续的回复提交操作
 document.addEventListener('click', function (event) {
+
     if (event.target.classList.contains('reply-button')) {
         const commentId = event.target.getAttribute('data-comment-id');
         console.log('you try to reply comment:' + commentId);
@@ -446,6 +459,11 @@ function createCommentItem(comment, parentElement, commentMap, type) {
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('comment-content'); // 添加评论内容的样式类
     contentDiv.textContent = comment.content;
+    // contentDiv.innerHTML = `<p>haha</p>`;
+    // FIXME:
+    // contentDiv.innerHTML = "haha";
+    // contentDiv.innerHTML = "\<script\>\n" + "alert('xss') \n" + "\<\/script\>";
+    console.log(comment.content);
     liContainer.appendChild(contentDiv);
 
     // 创建评论者和评论时间、回复按钮、回复框的容器
@@ -531,7 +549,10 @@ function createCommentItem(comment, parentElement, commentMap, type) {
         replyButton.title = '您尚未登录';
         replyInput.disabled = true;
     } else if (comment.status === '正常') {
+        // FIXME:
         contentDiv.textContent = comment.content;
+        // contentDiv.innerHTML = `<script>alert('here is xss');</script>`;
+        // contentDiv.innerHTML = `\<script\>\n" + "alert('xss') \n" + "\<\/script\>`;
         likeButton.disabled = false;
         // deleteButton.disabled = !isOwnComment;
         if (isOwnComment) {

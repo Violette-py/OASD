@@ -39,9 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $parentCommentId = $data['parentCommentId'];
             $content = $data['content'];
 
-            $insertSql = "INSERT INTO comment (userId, artworkId, parentCommentId, content, `status`) VALUES ('$userId', '$artworkId', '$parentCommentId', '$content', '正常')";
+            // $insertSql = "INSERT INTO comment (userId, artworkId, parentCommentId, content, `status`) VALUES ('$userId', '$artworkId', '$parentCommentId', '$content', '正常')";
 
-            if ($conn->query($insertSql) === TRUE) {
+            // if ($conn->query($insertSql) === TRUE) {
+
+            $insertSql = "INSERT INTO comment (userId, artworkId, parentCommentId, content, `status`) VALUES (?, ?, ?, ?, '正常')";
+
+            $stmt = $conn->prepare($insertSql);
+            $stmt->bind_param("iiis", $userId, $artworkId, $parentCommentId, $content);
+            if ($stmt->execute()) {
                 $response = [
                     'status' => 'success',
                     'message' => '评论成功'

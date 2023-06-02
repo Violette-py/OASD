@@ -208,8 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($artworkResult->num_rows > 0) {
                         while ($artworkRow = $artworkResult->fetch_assoc()) {
                             $item = array(
-                                'cartId' => $cartRow['cartId'],
-                                // NOTE: 注意这里是cartRow
+                                'cartId' => $cartRow['cartId'],  // NOTE: 注意这里是cartRow
                                 'artworkId' => $artworkRow['artworkId'],
                                 'status' => $artworkRow['status'],
                                 'imageFileName' => $artworkRow['imageFileName'],

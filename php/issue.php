@@ -42,6 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($requestType) {
 
+        // NOTE: 发布画作
+
         case 'issue':
 
             // 检查上传文件是否成功

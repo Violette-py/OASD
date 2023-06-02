@@ -285,6 +285,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         case 'search':
 
+            // // 获取搜索关键词、搜索方式和排序方式
+            // $keyword = $_GET['keyword'];
+            // $sortBy = $_GET['sortBy'];
+            // $searchBy = $_GET['searchBy'];
+
+            // // 构建 SQL 查询语句
+            // $sql = "SELECT * FROM artwork WHERE ";
+            // if ($searchBy == 'title') {
+            //     $sql .= "title LIKE '%$keyword%'";
+            // } elseif ($searchBy == 'artist') {
+            //     $sql .= "artist LIKE '%$keyword%'";
+            // }
+
+            // // 添加排序方式
+            // if ($sortBy == 'timeReleased') {
+            //     $sql .= " ORDER BY timeReleased DESC";
+            // } elseif ($sortBy == 'year') {
+            //     $sql .= " ORDER BY year DESC";
+            // } elseif ($sortBy == 'view') {
+            //     $sql .= " ORDER BY view DESC";
+            // } elseif ($sortBy == 'priceDesc') {
+            //     $sql .= " ORDER BY price DESC";
+            // } elseif ($sortBy == 'priceAsc') {
+            //     $sql .= " ORDER BY price ASC";
+            // }
+
+            // $result = $conn->query($sql);
+
+            // if ($result->num_rows > 0) {
+            //     $artworks = array();
+            //     while ($row = mysqli_fetch_assoc($result)) {
+            //         $artworks[] = $row;
+            //     }
+            // } else {
+            //     $artworks = [];
+            // }
+
+            // $response = array(
+            //     'results' => $artworks,
+            //     'length' => $result->num_rows
+            // );
+
             // 获取搜索关键词、搜索方式和排序方式
             $keyword = $_GET['keyword'];
             $sortBy = $_GET['sortBy'];
@@ -292,10 +334,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // 构建 SQL 查询语句
             $sql = "SELECT * FROM artwork WHERE ";
+            $params = array();
+
             if ($searchBy == 'title') {
-                $sql .= "title LIKE '%$keyword%'";
+                $sql .= "title LIKE ?";
+                $params[] = "%$keyword%";
             } elseif ($searchBy == 'artist') {
-                $sql .= "artist LIKE '%$keyword%'";
+                $sql .= "artist LIKE ?";
+                $params[] = "%$keyword%";
             }
 
             // 添加排序方式
@@ -311,30 +357,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $sql .= " ORDER BY price ASC";
             }
 
-            // NOTE: 分页展示（先在前端实现）
+            $stmt = $conn->prepare($sql);
+            if ($stmt) {
+                // 绑定参数
+                if (!empty($params)) {
+                    $types = str_repeat('s', count($params));
+                    $stmt->bind_param($types, ...$params);
+                }
 
-            // $page = isset($_GET['page']) ? $_GET['page'] : 1; // Get the requested page number
+                // 执行查询
+                $stmt->execute();
 
-            // $limit = 6; // Number of results per page
-            // $offset = ($page - 1) * $limit; // Calculate the offset
+                // 获取结果
+                $result = $stmt->get_result();
 
-            // // Add the limit and offset to the query
-            // $sql .= " LIMIT $limit OFFSET $offset";
-
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
+                // 处理结果
                 $artworks = array();
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($row = $result->fetch_assoc()) {
                     $artworks[] = $row;
                 }
+
+                $stmt->close();
             } else {
+                // 处理预处理语句失败的情况
                 $artworks = [];
             }
 
             $response = array(
                 'results' => $artworks,
-                'length' => $result->num_rows
+                'length' => count($artworks)
             );
 
             break;
