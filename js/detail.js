@@ -69,18 +69,29 @@ window.addEventListener('DOMContentLoaded', function () {
         zoomBox.style.display = 'none';
     }
 
-
-    // NOTE: 记录用户行为
-    recordUserOperation(artworkId, 1);
-
-    // NOTE: 同步更新artwork的view字段 -- 能否应用trigger实现？
-
     // NOTE: 购物车按钮
     const shoppingButton = document.getElementById('shopping');
     shoppingButton.addEventListener('click', confirmAddToCart);
 
+    // NOTE: 评论按钮
     var commentButton = document.getElementById('comment-button');
     commentButton.addEventListener('click', handleCommentSubmit);
+
+    var userId = this.sessionStorage.getItem('userId');
+    if (userId !== null) {
+        // NOTE: 记录用户行为
+        recordUserOperation(artworkId, 1);
+    } else {
+        // NOTE: 禁用购物车按钮
+        shoppingButton.disabled = true;
+        shoppingButton.title = '您尚未登录';
+
+        // NOTE: 禁用评论按钮
+        commentButton.disabled = true;
+        commentButton.title = '您尚未登录';
+    }
+
+    // FIXME: 同步更新artwork的view字段 -- 能否应用trigger实现？
 
     // NOTE: 获取评论列表
     fetchComments();
@@ -131,7 +142,13 @@ function getArtworkDetail(artworkId) {
                 // NOTE: 检查shoppingButton的状态
                 const shoppingButton = document.getElementById('shopping');
 
-                if (data.data.ownerId === sessionStorage.getItem('userId')) {
+                var userId = sessionStorage.getItem('userId');
+
+                if (!userId) {
+                    shoppingButton.disabled = true;
+                    shoppingButton.title = '您尚未登录';
+                } else 
+                if (data.data.ownerId === userId) {
                     shoppingButton.disabled = true;
                     shoppingButton.title = '您不能购买自己发布的艺术品';
                 } else if (data.data.status === '已售出') {
@@ -210,8 +227,6 @@ function Zoomhover(imgbox, hoverbox, showbox, zoomedImage) {
         showbox.style.display = 'none';
     });
 }
-
-
 
 // NOTE: 检查用户是否已将该商品添加到购物车
 function checkIfHasAddedToCart() {
@@ -506,8 +521,16 @@ function createCommentItem(comment, parentElement, commentMap, type) {
     replyInput.style.display = 'none'; // 初始隐藏
     commenterInfoContainer.appendChild(replyInput);
 
-    // 判断评论状态
-    if (comment.status === '正常') {
+    // NOTE: 判断评论状态
+    if (!sessionStorage.getItem('userId')) {
+        likeButton.disabled = true;
+        likeButton.title = '您尚未登录';
+        deleteButton.disabled = true;
+        deleteButton.title = '您尚未登录';
+        replyButton.disabled = true;
+        replyButton.title = '您尚未登录';
+        replyInput.disabled = true;
+    } else if (comment.status === '正常') {
         contentDiv.textContent = comment.content;
         likeButton.disabled = false;
         // deleteButton.disabled = !isOwnComment;

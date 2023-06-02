@@ -169,7 +169,7 @@ button[type="submit"]:hover {
   /* 添加其他样式属性 */
 }
 
-/* 张思源的轮播样式 */
+/* 轮播样式 */
 
 .slider-page a {
   text-decoration: none;
@@ -211,13 +211,6 @@ button[type="submit"]:hover {
 .slider-extra {
   position: relative;
 }
-
-/* .slider-nav {
-  margin-left: -51px;
-  position: absolute;
-  left: 50%;
-  bottom: 4px;
-} */
 
 .slider-nav li {
   background: #3e3e3e;
@@ -266,4 +259,17 @@ button[type="submit"]:hover {
 .slider-next {
   left: 100%;
   margin-left: -28px;
+}
+
+/* 搜索结果及标题 */
+
+.latestReleased { 
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 40px;
 }
