@@ -163,3 +163,32 @@ button[type="submit"]:hover {
     left: 50%;
     transform: translateX(-50%);
 }
+
+/* .pagination-btn {
+
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+
+    padding-left: 10px;
+
+    height: 30px;
+}
+
+.pagination-btn:hover {
+  background-color: #3e8e41;
+
+} */

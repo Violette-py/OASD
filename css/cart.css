@@ -75,3 +75,15 @@ button[type="submit"]:hover {
     background-color: #3e8e41;
 }
 
+#check-cart,
+#delete-cart,
+#cart-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 5px; */
+    margin-bottom: 20px;
+    /* margin-left: 20px; */
+    
+}
+

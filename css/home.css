@@ -10,6 +10,33 @@ body {
   font-weight: bolder;
 }
 
+/* 音乐按钮 */
+
+button {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 10%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
 /* 搜索框 */
 
 form {
@@ -263,7 +290,7 @@ button[type="submit"]:hover {
 
 /* 搜索结果及标题 */
 
-.latestReleased { 
+.latestReleased {
   /* text-align: center; */
   display: flex;
   justify-content: center;

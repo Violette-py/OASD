@@ -23,6 +23,7 @@ async function getCartItems() {
         const shoppingList = document.getElementById('shopping-list');
         const checkDiv = document.getElementById('check-cart');
         const deleteCartDiv = document.getElementById('delete-cart');
+        // const buttonDiv = document.getElementById('cart-button');
 
         if (data.length > 0) {
 
@@ -32,6 +33,7 @@ async function getCartItems() {
             checkButton.textContent = 'check';
             checkButton.addEventListener('click', handleCartPurchase);
             checkDiv.appendChild(checkButton);
+            // buttonDiv.appendChild(checkButton);
 
             // 删除按钮
             const deleteButton = document.createElement('button');
@@ -39,6 +41,7 @@ async function getCartItems() {
             deleteButton.textContent = 'discard';
             deleteButton.addEventListener('click', handleCartDelete);
             deleteCartDiv.appendChild(deleteButton);
+            // buttonDiv.appendChild(deleteButton);
 
             data.forEach(item => {
 
