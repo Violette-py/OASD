@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $userId = $_GET['userId'];
 
     switch ($requestType) {
+
+        // NOTE: 获取用户信息
+
         case 'getInfo':
 
             // 查询数据库中对应的用户记录
@@ -114,20 +117,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $telephone = $data['telephone'];
                 $address = $data['address'];
 
-                // 更新用户信息
-                $updateSql = "UPDATE user SET name = '$name', gender = '$gender', birthdate = '$birthdate', email = '$email', telephone = '$telephone', address = '$address' WHERE userId = '$userId'";
+                // 查询数据库中是否存在相同的用户名
+                $query = "SELECT COUNT(*) FROM user WHERE name = '$name'";
+                $result = mysqli_query($conn, $query);
+                $row = mysqli_fetch_array($result);
 
-                if ($conn->query($updateSql) === TRUE) {
-                    $response = [
-                        'success' => true,
-                        'message' => '信息更改成功'
-                    ];
-                } else {
+                // 如果查询结果大于 0，表示存在重复的用户名
+                if ($row[0] > 0) {
+
                     $response = [
                         'success' => false,
-                        'message' => '信息更改失败: ' . $conn->error
+                        'message' => '用户名已存在'
                     ];
+
+                } else {
+
+                    // 更新用户信息
+                    $updateSql = "UPDATE user SET name = '$name', gender = '$gender', birthdate = '$birthdate', email = '$email', telephone = '$telephone', address = '$address' WHERE userId = '$userId'";
+
+                    if ($conn->query($updateSql) === TRUE) {
+                        $response = [
+                            'success' => true,
+                            'message' => '信息更改成功'
+                        ];
+                    } else {
+                        $response = [
+                            'success' => false,
+                            'message' => '信息更改失败: ' . $conn->error
+                        ];
+                    }
+
                 }
+
                 break;
 
             // NOTE: 修改密码

@@ -230,12 +230,8 @@ window.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    window.location.href = "../html/info.html";
-                } else {
-                    alert(data.message);
-                }
+                alert(data.message);
+                window.location.href = "../html/info.html";
             })
             .catch(error => {
                 console.error('请求发生错误:', error);
