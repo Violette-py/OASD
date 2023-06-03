@@ -57,13 +57,36 @@ window.onload = function () {
 			return false;  // NOTE: 真正阻止提交
 		}
 
-		// FIXME: 好像没有办法真正阻止提交？
-
-		// console.log('before submit');
-
 		/* 通过以上验证后，则提交表单，发送给服务器端进行验证和处理 */
-		this.submit();
-		// return false;  // 阻止页面刷新 —— 好像没用
+		// this.submit();
+
+		const formData = new FormData(registerForm);
+		// formData.append('requestType', 'login');
+
+		// 发送POST请求
+		fetch('http://localhost:3000/php/register.php', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => response.json())
+			.then(data => {
+
+				if (data.success) {
+					// sessionStorage.setItem('name', data.name);
+					// sessionStorage.setItem('userId', data.userId);
+					alert(data.message);
+					window.location.href = '../html/login.html';
+				} else {
+					alert(data.message);
+					window.location.href = '../html/register.html';
+				}
+
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+
+
 	});
 }
 

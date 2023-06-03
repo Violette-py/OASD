@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // 执行预处理语句
                     if ($stmt->execute()) {
-                        $response = ['success' => true, 'message' => '成功插入艺术画作信息'];
+                        $response = ['success' => true, 'message' => '成功发布艺术画作'];
                     } else {
                         $response = ['success' => false, 'message' => '数据插入失败'];
                     }

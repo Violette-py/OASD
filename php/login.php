@@ -20,12 +20,6 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 $password = $_POST['password'];
 
-// // 数据再次校验
-// if (empty($name) || empty($password)) {
-//     echo "<script>alert('请填写完整的登录信息');</script>";
-//     exit();
-// }
-
 // 查询数据库
 $query = "SELECT * FROM user WHERE name = '$name'";
 $result = mysqli_query($conn, $query);

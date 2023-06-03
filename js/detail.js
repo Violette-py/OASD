@@ -22,16 +22,29 @@ window.addEventListener('DOMContentLoaded', function () {
 
     console.log('artworkId: ' + artworkId);
 
-    // NOTE: 图片局部放大
-    // const imgbox = document.querySelector('.imgbox');
-    // const hoverbox = document.querySelector('.hoverbox');
-    // const showbox = document.querySelector('.showbox');
-    // const zoomedImage = document.querySelector('#zoomedImage');
+    // NOTE: 购物车按钮
+    const shoppingButton = document.getElementById('shopping');
+    shoppingButton.addEventListener('click', confirmAddToCart);
 
-    // // 图片加载完成后执行初始化
-    // zoomedImage.addEventListener('load', function () {
-    //     Zoomhover(imgbox, hoverbox, showbox, zoomedImage);
-    // });
+    // NOTE: 评论按钮
+    var commentButton = document.getElementById('comment-button');
+    commentButton.addEventListener('click', handleCommentSubmit);
+
+    var userId = this.sessionStorage.getItem('userId');
+    if (userId !== null) {
+        // NOTE: 记录用户行为
+        recordUserOperation(artworkId, 1);
+    } else {
+        // NOTE: 禁用购物车按钮
+        shoppingButton.disabled = true;
+        shoppingButton.title = '您尚未登录';
+
+        // NOTE: 禁用评论按钮
+        commentButton.disabled = true;
+        commentButton.title = '您尚未登录';
+    }
+
+    // NOTE: 图片局部放大
 
     var imgContainer = document.querySelector('.img-container');
     var zoomBox = document.querySelector('.zoom-box');
@@ -67,28 +80,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function hideZoomBox() {
         zoomBox.style.display = 'none';
-    }
-
-    // NOTE: 购物车按钮
-    const shoppingButton = document.getElementById('shopping');
-    shoppingButton.addEventListener('click', confirmAddToCart);
-
-    // NOTE: 评论按钮
-    var commentButton = document.getElementById('comment-button');
-    commentButton.addEventListener('click', handleCommentSubmit);
-
-    var userId = this.sessionStorage.getItem('userId');
-    if (userId !== null) {
-        // NOTE: 记录用户行为
-        recordUserOperation(artworkId, 1);
-    } else {
-        // NOTE: 禁用购物车按钮
-        shoppingButton.disabled = true;
-        shoppingButton.title = '您尚未登录';
-
-        // NOTE: 禁用评论按钮
-        commentButton.disabled = true;
-        commentButton.title = '您尚未登录';
     }
 
     // FIXME: 同步更新artwork的view字段 -- 能否应用trigger实现？ -- 已经实现了！
@@ -150,19 +141,21 @@ function getArtworkDetail(artworkId) {
 
                 var userId = sessionStorage.getItem('userId');
 
+                // console.log('ownerId is ' + data.data.ownerId); // number
+                // console.log('userId is ' + userId);  // string
+
                 if (!userId) {
                     shoppingButton.disabled = true;
                     shoppingButton.title = '您尚未登录';
-                } else
-                    if (data.data.ownerId === userId) {
-                        shoppingButton.disabled = true;
-                        shoppingButton.title = '您不能购买自己发布的艺术品';
-                    } else if (data.data.status === '已售出') {
-                        shoppingButton.disabled = true;
-                        shoppingButton.title = '该画作已售出';
-                    } else {
-                        checkIfHasAddedToCart();
-                    }
+                } else if (data.data.ownerId == userId) { // 不是全等的
+                    shoppingButton.disabled = true;
+                    shoppingButton.title = '您不能购买自己发布的艺术品';
+                } else if (data.data.status === '已售出') {
+                    shoppingButton.disabled = true;
+                    shoppingButton.title = '该画作已售出';
+                } else {
+                    checkIfHasAddedToCart();
+                }
 
             } else {
                 // NOTE: 不合法url（未找到对应的artwork），重定向到error界面

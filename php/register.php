@@ -21,20 +21,9 @@ $email = $_POST['email'];
 $telephone = $_POST['telephone'];
 $address = $_POST['address'];
 
-// 进行数据验证
-if (empty($name) || empty($password)) {
-    // 某个字段为空，返回错误响应
-    // echo 'Error: Missing required fields. [in PHP]';
-    exit();
-}
-
-// echo 'here is test  ';
-
 // 进行进一步的数据验证，例如验证电子邮件格式、密码强度等（需要假设前端什么校验都没做过？？）
 
 // NOTE: 连接数据库
-
-// 数据验证通过，将数据存入数据库
 $mysql_server = 'localhost';
 $mysql_name = 'root';
 $mysql_password = 'gansui';
@@ -48,8 +37,6 @@ if ($conn->connect_error) {
     die("数据库连接失败：" . $conn->connect_error);
 }
 
-// echo 'sql connection successfully  ';
-
 // NOTE: 用户名不得与已有用户名重复 
 
 // 查询数据库中是否存在相同的用户名
@@ -59,10 +46,14 @@ $row = mysqli_fetch_array($result);
 
 // 如果查询结果大于 0，表示存在重复的用户名
 if ($row[0] > 0) {
-    echo "<script>alert('用户名已存在，请选择一个不同的用户名！');</script>";
-    // echo "用户名已存在，请选择一个不同的用户名！";
+    // echo "<script>alert('用户名已存在，请选择一个不同的用户名！');</script>";
+
+    $response = [
+        'success' => false,
+        'message' => '用户名已存在，请选择一个不同的用户名！'
+    ];
+
 } else {
-    // echo "用户名可用";
 
     // NOTE: 对用户密码进行哈希加盐（需要存储盐值）
 
@@ -74,25 +65,38 @@ if ($row[0] > 0) {
     // 使用 bcrypt 进行哈希
     $hashedPassword = password_hash($salt . $password, PASSWORD_BCRYPT);
 
-    // $hashedPassword = hash('sha256', $salt . $password);
-
-    // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
     // NOTE: 插入数据
     $sql = "INSERT INTO user (name, password, salt, balance, gender, birthdate, email, telephone, address) VALUES ('$name', '$hashedPassword', '$salt', '$balance', '$gender', '$birthdate', '$email', '$telephone', '$address')";
 
     if ($conn->query($sql) === TRUE) {
-        echo 'Registration successful.';
-        // header("Location: login.html"); // 重定向到登录界面
-        echo "<script>
-                    alert('注册成功');
-                    location='../html/login.html'
-                </script>";
-        exit();
+
+        // echo 'Registration successful.';
+        // echo "<script>
+        //             alert('注册成功');
+        //             location='../html/login.html'
+        //         </script>";
+        // exit();
+
+        $response = [
+            'success' => true,
+            'message' => '注册成功'
+        ];
+
+
     } else {
-        echo 'Error: ' . $conn->error;
+
+        $response = [
+            'success' => false,
+            'message' => '注册失败: ' . $conn->error
+        ];
+
+        // echo 'Error: ' 
     }
 }
+
+// 返回响应
+header('Content-Type: application/json');
+echo json_encode($response);
 
 // 关闭数据库连接
 $conn->close();
