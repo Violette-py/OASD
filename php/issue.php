@@ -125,23 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // 文件移动成功
 
                         // 更新包含图片的字段和其他字段
-                        // $sql = "UPDATE artwork SET
-                        //         imageFileName = '$filename',
-                        //         title = '$title',
-                        //         artist = '$artist',
-                        //         genre = '$genre',
-                        //         `year` = '$year',
-                        //         price = '$price',
-                        //         width = '$width',
-                        //         height = '$height',
-                        //         introduction = '$introduction'
-                        //         WHERE artworkId = $artworkId";
-
-                        // if ($conn->query($sql) === TRUE) {
-                        //     $response = ['success' => true, 'message' => '成功更新艺术画作信息'];
-                        // } else {
-                        //     $response = ['success' => false, 'message' => '数据更新失败'];
-                        // }
 
                         // 准备SQL语句，使用占位符（?）代替实际的值
                         $sql = "UPDATE artwork SET
@@ -175,22 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
 
                 // FIXME: 用户未上传新的图片，仅更新其他字段信息
-                // $sql = "UPDATE artwork SET
-                //         title = '$title',
-                //         artist = '$artist',
-                //         genre = '$genre',
-                //         `year` = '$year',
-                //         price = '$price',
-                //         width = '$width',
-                //         height = '$height',
-                //         introduction = '$introduction'
-                //         WHERE artworkId = $artworkId";
-
-                // if ($conn->query($sql) === TRUE) {
-                //     $response = ['success' => true, 'message' => '成功更新艺术画作信息'];
-                // } else {
-                //     $response = ['success' => false, 'message' => '数据更新失败'];
-                // }
 
                 $sql = "UPDATE artwork SET
                         title = ?,
@@ -215,7 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $response = ['success' => false, 'message' => '数据更新失败'];
                 }
-
 
             }
 

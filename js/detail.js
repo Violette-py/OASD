@@ -302,8 +302,6 @@ function handleCommentSubmit(event) {
     const content = document.getElementById('comment-input').value;
     console.log(content);
 
-    // FIXME: 检查不为空再提交
-
     if (!content.trim()) {
         alert('请输入内容！');
         return false;
@@ -313,7 +311,7 @@ function handleCommentSubmit(event) {
         requestType: 'addComment',
         userId: sessionStorage.getItem('userId'),
         artworkId: localStorage.getItem('selectedArtworkId'),
-        parentCommentId: -1,  // FIXME: 死数据，后续动态修改
+        parentCommentId: -1,  
         content: content
     };
 
@@ -341,7 +339,7 @@ function fetchComments() {
             const commentList = document.getElementById('comment-list');
             commentList.innerHTML = '';
 
-            // FIXME: 用于存储评论框的映射关系（父子评论-回复内容）
+            // NOTE: 用于存储评论框的映射关系（父子评论-回复内容）
             const commentMap = {};
 
             // 逐个添加评论到列表
